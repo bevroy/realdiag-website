@@ -9,24 +9,36 @@
 <body class="bg-gray-50 text-gray-900">
   <header class="bg-white shadow">
     <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-      <h1 class="text-2xl font-bold text-indigo-600">RealDiag</h1>
+      <div class="flex items-center gap-3">
+        <img src="assets/images/logo.png" alt="RealDiag Logo" class="h-10">
+        <h1 class="text-2xl font-bold text-teal-600">RealDiag</h1>
+      </div>
       <nav>
-        <a href="#about" class="mx-3 text-gray-700 hover:text-indigo-600">About</a>
-        <a href="#features" class="mx-3 text-gray-700 hover:text-indigo-600">Features</a>
-        <a href="#contact" class="mx-3 text-gray-700 hover:text-indigo-600">Contact</a>
+        <a href="#about" class="mx-3 text-gray-700 hover:text-teal-600">About</a>
+        <a href="#features" class="mx-3 text-gray-700 hover:text-teal-600">Features</a>
+        <a href="#contact" class="mx-3 text-gray-700 hover:text-teal-600">Contact</a>
       </nav>
     </div>
   </header>
 
-  <section class="bg-indigo-600 text-white py-20">
+  <section class="bg-teal-600 text-white py-20">
     <div class="max-w-4xl mx-auto text-center px-6">
       <h2 class="text-4xl font-extrabold mb-4">Smarter Medical Referrals, Powered by AI</h2>
       <p class="text-lg mb-6">RealDiag combines evidence-based guidelines with diagnostic data to improve accuracy, consistency, and timeliness of patient referrals.</p>
-      <a href="#contact" class="bg-white text-indigo-600 px-6 py-3 rounded-lg font-semibold shadow hover:bg-gray-100">
+      <a href="#contact" class="bg-white text-teal-600 px-6 py-3 rounded-lg font-semibold shadow hover:bg-gray-100">
         Get Involved
       </a>
     </div>
   </section>
+
+  <section class="py-16 max-w-5xl mx-auto px-6">
+    <h3 class="text-2xl font-bold mb-6 text-center">See RealDiag in Action</h3>
+    <div class="rounded-lg overflow-hidden shadow-lg">
+      <video width="100%" controls class="bg-black">
+        <source src="assets/videos/demo.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
 
   <section id="about" class="py-16 max-w-5xl mx-auto px-6">
     <h3 class="text-2xl font-bold mb-4">About RealDiag</h3>
@@ -35,20 +47,20 @@
     </p>
   </section>
 
-  <section id="features" class="bg-gray-100 py-16">
+  <section id="features" class="bg-amber-50 py-16">
     <div class="max-w-5xl mx-auto px-6">
-      <h3 class="text-2xl font-bold mb-10 text-center">Key Features</h3>
+      <h3 class="text-2xl font-bold mb-10 text-center text-amber-900">Key Features</h3>
       <div class="grid md:grid-cols-3 gap-8">
-        <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg">
-          <h4 class="font-semibold text-indigo-600 mb-2">Guideline Integration</h4>
+        <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg border-l-4 border-amber-700">
+          <h4 class="font-semibold text-teal-600 mb-2">Guideline Integration</h4>
           <p class="text-gray-600">Centralized access to AAN, ADA, NICE, and other medical guidelines, updated in real-time.</p>
         </div>
-        <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg">
-          <h4 class="font-semibold text-indigo-600 mb-2">Diagnostic Intelligence</h4>
+        <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg border-l-4 border-amber-700">
+          <h4 class="font-semibold text-teal-600 mb-2">Diagnostic Intelligence</h4>
           <p class="text-gray-600">Connects patient history, labs, and imaging with referral rules for precise recommendations.</p>
         </div>
-        <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg">
-          <h4 class="font-semibold text-indigo-600 mb-2">EHR Integration</h4>
+        <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg border-l-4 border-amber-700">
+          <h4 class="font-semibold text-teal-600 mb-2">EHR Integration</h4>
           <p class="text-gray-600">FHIR/HL7-ready APIs that embed directly into Epic, Cerner, and other EHR systems.</p>
         </div>
       </div>
@@ -62,13 +74,13 @@
       <input type="text" placeholder="Name" class="w-full p-3 border rounded" />
       <input type="email" placeholder="Email" class="w-full p-3 border rounded" />
       <textarea placeholder="Message" rows="4" class="w-full p-3 border rounded"></textarea>
-      <button type="submit" class="bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700">
+      <button type="submit" class="bg-teal-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-teal-700">
         Send Message
       </button>
     </form>
   </section>
 
-  <footer class="bg-white py-6 mt-12 shadow-inner text-center text-gray-600">
+  <footer class="bg-amber-900 py-6 mt-12 shadow-inner text-center text-white">
     © 2025 RealDiag. All rights reserved.
   </footer>
 </body>
