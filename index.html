@@ -11,79 +11,91 @@
   <script src="https://unpkg.com/lucide-react@0.460.0/dist/umd/lucide-react.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
-<body class="bg-teal-50 text-gray-900">
-  <header class="bg-teal-600 shadow">
-    <div class="max-w-6xl mx-auto px-6 py-12 flex justify-between items-center">
-      <div class="flex items-center gap-6">
-        <img src="assets/images/logo.png" alt="RealDiag Logo" class="h-24">
+<body class="bg-slate-50 text-slate-900">
+  <header class="bg-gradient-to-r from-slate-900 to-teal-700 text-white shadow-2xl">
+    <div class="max-w-7xl mx-auto px-6 py-8 flex justify-between items-center flex-wrap gap-4">
+      <div class="flex items-center gap-5">
+        <img src="assets/images/logo.png" alt="RealDiag Logo" class="h-20">
         <div>
-          <h1 class="text-4xl font-bold text-amber-900">RealDiag, LLC</h1>
-          <p class="text-base text-amber-900 mt-1">AI-Powered</p>
-          <p class="text-base text-amber-900">Real-Time Diagnostic Assistant</p>
+          <h1 class="text-3xl font-bold tracking-tight">RealDiag, LLC</h1>
+          <p class="text-sm text-teal-200 mt-1">AI-Powered Real-Time Diagnostic Assistant</p>
         </div>
       </div>
-      <nav>
-        <a href="#about" class="mx-3 text-amber-900 hover:text-amber-700">About</a>
-        <a href="#features" class="mx-3 text-amber-900 hover:text-amber-700">Features</a>
-        <a href="#contact" class="mx-3 text-amber-900 hover:text-amber-700">Contact</a>
+      <nav class="flex items-center gap-2">
+        <a href="#about" class="px-4 py-2 rounded-full text-sm font-medium text-white/90 hover:bg-white/10">About</a>
+        <a href="#demo" class="px-4 py-2 rounded-full text-sm font-medium text-white/90 hover:bg-white/10">Demo</a>
+        <a href="#features" class="px-4 py-2 rounded-full text-sm font-medium text-white/90 hover:bg-white/10">Features</a>
+        <a href="#contact" class="px-4 py-2 rounded-full text-sm font-medium bg-white text-teal-700 hover:bg-teal-50">Contact</a>
       </nav>
     </div>
   </header>
 
-  <section class="bg-amber-50 text-amber-900 py-10">
-    <div class="max-w-4xl mx-auto text-center px-6">
-      <h2 class="text-2xl font-semibold mb-3">Smarter Medical Referrals, Powered by AI</h2>
-      <p class="text-base mb-4">RealDiag combines evidence-based guidelines with diagnostic data to improve accuracy, consistency, and timeliness of patient referrals.</p>
+  <section class="max-w-7xl mx-auto px-6 pt-10">
+    <div class="bg-gradient-to-r from-slate-900 to-teal-700 text-white rounded-3xl p-10 shadow-2xl">
+      <div class="inline-flex px-4 py-2 rounded-full bg-white/10 text-sm font-medium mb-4">Smarter Medical Referrals, Powered by AI</div>
+      <h2 class="text-4xl md:text-5xl font-bold leading-tight max-w-3xl">From diagnostic uncertainty to structured action — in minutes.</h2>
+      <p class="text-slate-200 mt-4 max-w-2xl text-lg">RealDiag combines evidence-based guidelines with diagnostic data to improve accuracy, consistency, and timeliness of patient referrals.</p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a href="#demo" class="bg-white text-teal-700 px-5 py-3 rounded-xl font-semibold hover:bg-teal-50">See the Demo</a>
+        <a href="#contact" class="bg-white/10 text-white px-5 py-3 rounded-xl font-semibold hover:bg-white/20">Get in Touch</a>
+      </div>
     </div>
   </section>
 
-  <section class="py-16 max-w-7xl mx-auto px-6">
-    <h3 class="text-2xl font-bold mb-6 text-center">See RealDiag in Action</h3>
+  <section id="demo" class="py-16 max-w-7xl mx-auto px-6">
+    <h3 class="text-3xl font-bold mb-2 text-center">See RealDiag in Action</h3>
+    <p class="text-slate-500 text-center mb-8">An interactive walkthrough of the diagnostic workflow.</p>
     <div id="realdiag-demo-root"></div>
   </section>
 
-  <section id="about" class="py-16 max-w-5xl mx-auto px-6">
-    <h3 class="text-2xl font-bold mb-4">About RealDiag</h3>
-    <p class="text-gray-700 leading-relaxed">
-      RealDiag is a decision-support platform that integrates national and international medical guidelines with live diagnostic data from electronic health records. Our mission is to reduce variability in referral decisions, prevent missed opportunities for specialist care, and accelerate patient access to life-saving treatments.
-    </p>
+  <section id="about" class="py-16 max-w-7xl mx-auto px-6">
+    <div class="bg-white rounded-3xl shadow-lg border border-slate-200 p-8 md:p-10">
+      <h3 class="text-2xl font-bold mb-4">About RealDiag</h3>
+      <p class="text-slate-600 leading-relaxed">
+        RealDiag is a decision-support platform that integrates national and international medical guidelines with live diagnostic data from electronic health records. Our mission is to reduce variability in referral decisions, prevent missed opportunities for specialist care, and accelerate patient access to life-saving treatments.
+      </p>
+    </div>
   </section>
 
-  <section id="features" class="bg-amber-50 py-16">
-    <div class="max-w-5xl mx-auto px-6">
-      <h3 class="text-2xl font-bold mb-10 text-center text-amber-900">Key Features</h3>
-      <div class="grid md:grid-cols-3 gap-8">
-        <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg border-l-4 border-amber-700">
-          <h4 class="font-semibold text-teal-600 mb-2">Guideline Integration</h4>
-          <p class="text-gray-600">Centralized access to AAN, ADA, NICE, and other medical guidelines, updated in real-time.</p>
+  <section id="features" class="py-16">
+    <div class="max-w-7xl mx-auto px-6">
+      <h3 class="text-3xl font-bold mb-10 text-center">Key Features</h3>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="bg-white p-6 rounded-3xl shadow-lg border border-slate-200 hover:shadow-xl transition">
+          <h4 class="font-semibold text-teal-700 mb-2 text-lg">Guideline Integration</h4>
+          <p class="text-slate-600">Centralized access to AAN, ADA, NICE, and other medical guidelines, updated in real-time.</p>
         </div>
-        <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg border-l-4 border-amber-700">
-          <h4 class="font-semibold text-teal-600 mb-2">Diagnostic Intelligence</h4>
-          <p class="text-gray-600">Connects patient history, labs, and imaging with referral rules for precise recommendations.</p>
+        <div class="bg-white p-6 rounded-3xl shadow-lg border border-slate-200 hover:shadow-xl transition">
+          <h4 class="font-semibold text-teal-700 mb-2 text-lg">Diagnostic Intelligence</h4>
+          <p class="text-slate-600">Connects patient history, labs, and imaging with referral rules for precise recommendations.</p>
         </div>
-        <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg border-l-4 border-amber-700">
-          <h4 class="font-semibold text-teal-600 mb-2">EHR Integration</h4>
-          <p class="text-gray-600">FHIR/HL7-ready APIs that embed directly into Epic, Cerner, and other EHR systems.</p>
+        <div class="bg-white p-6 rounded-3xl shadow-lg border border-slate-200 hover:shadow-xl transition">
+          <h4 class="font-semibold text-teal-700 mb-2 text-lg">EHR Integration</h4>
+          <p class="text-slate-600">FHIR/HL7-ready APIs that embed directly into Epic, Cerner, and other EHR systems.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="contact" class="py-16 max-w-5xl mx-auto px-6">
-    <h3 class="text-2xl font-bold mb-4">Get in Touch</h3>
-    <p class="text-gray-700 mb-6">Interested in partnering, piloting, or supporting RealDiag? Reach out below.</p>
-    <form class="space-y-4">
-      <input type="text" placeholder="Name" class="w-full p-3 border rounded" />
-      <input type="email" placeholder="Email" class="w-full p-3 border rounded" />
-      <textarea placeholder="Message" rows="4" class="w-full p-3 border rounded"></textarea>
-      <button type="submit" class="bg-teal-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-teal-700">
-        Send Message
-      </button>
-    </form>
+  <section id="contact" class="py-16 max-w-3xl mx-auto px-6">
+    <div class="bg-white rounded-3xl shadow-lg border border-slate-200 p-8 md:p-10">
+      <h3 class="text-2xl font-bold mb-2">Get in Touch</h3>
+      <p class="text-slate-600 mb-6">Interested in partnering, piloting, or supporting RealDiag? Reach out below.</p>
+      <form class="space-y-4">
+        <input type="text" placeholder="Name" class="w-full p-3 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500" />
+        <input type="email" placeholder="Email" class="w-full p-3 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500" />
+        <textarea placeholder="Message" rows="4" class="w-full p-3 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500"></textarea>
+        <button type="submit" class="bg-gradient-to-r from-slate-900 to-teal-700 text-white px-6 py-3 rounded-xl font-semibold hover:opacity-90">
+          Send Message
+        </button>
+      </form>
+    </div>
   </section>
 
-  <footer class="bg-amber-900 py-6 mt-12 shadow-inner text-center text-white">
-    © 2025 RealDiag. All rights reserved.
+  <footer class="bg-slate-900 text-slate-300 py-8 mt-12 text-center">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-sm">© 2025 RealDiag, LLC. All rights reserved.</div>
+    </div>
   </footer>
 
   <script type="text/babel" data-presets="react" src="assets/js/realdiag-demo.jsx"></script>
