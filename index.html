@@ -5,12 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RealDiag – Smarter Medical Referrals</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/framer-motion@11.11.17/dist/framer-motion.js"></script>
+  <script src="https://unpkg.com/lucide-react@0.460.0/dist/umd/lucide-react.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
 <body class="bg-teal-50 text-gray-900">
   <header class="bg-teal-600 shadow">
     <div class="max-w-6xl mx-auto px-6 py-12 flex justify-between items-center">
       <div class="flex items-center gap-6">
-        <img src="assets/images/RealDiag_Logo_clear_background.png" alt="RealDiag Logo" class="h-24">
+        <img src="assets/images/logo.png" alt="RealDiag Logo" class="h-24">
         <div>
           <h1 class="text-4xl font-bold text-amber-900">RealDiag, LLC</h1>
           <p class="text-base text-amber-900 mt-1">AI-Powered</p>
@@ -32,14 +37,10 @@
     </div>
   </section>
 
-  <section class="py-16 max-w-5xl mx-auto px-6">
+  <section class="py-16 max-w-7xl mx-auto px-6">
     <h3 class="text-2xl font-bold mb-6 text-center">See RealDiag in Action</h3>
-    <div class="rounded-lg overflow-hidden shadow-lg">
-      <video width="100%" controls class="bg-black">
-        <source src="assets/videos/RealDiag_Demo.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
-    </div>
+    <div id="realdiag-demo-root"></div>
+  </section>
 
   <section id="about" class="py-16 max-w-5xl mx-auto px-6">
     <h3 class="text-2xl font-bold mb-4">About RealDiag</h3>
@@ -84,5 +85,7 @@
   <footer class="bg-amber-900 py-6 mt-12 shadow-inner text-center text-white">
     © 2025 RealDiag. All rights reserved.
   </footer>
+
+  <script type="text/babel" data-presets="react" src="assets/js/realdiag-demo.jsx"></script>
 </body>
 </html>
