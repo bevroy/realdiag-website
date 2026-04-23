@@ -1,6 +1,29 @@
 const { useState, useRef } = React;
-const { motion, AnimatePresence } = window.FramerMotion || window.framerMotion || window.Motion;
-const { Stethoscope, Brain, AlertTriangle, FileText, Activity, Play } = window.LucideReact || window.lucideReact || window.lucide;
+
+// Lightweight shim for framer-motion: render the underlying HTML tag and drop motion-only props.
+const _motionProps = ['initial','animate','exit','transition','whileHover','whileTap','whileInView','variants','layout','layoutId','drag','dragConstraints','viewport'];
+const motion = new Proxy({}, {
+  get: (_t, tag) => React.forwardRef((props, ref) => {
+    const clean = {};
+    for (const k in props) if (!_motionProps.includes(k)) clean[k] = props[k];
+    return React.createElement(tag, { ...clean, ref });
+  })
+});
+const AnimatePresence = ({ children }) => React.createElement(React.Fragment, null, children);
+
+// Lightweight shim for lucide-react icons: tiny inline SVGs by name (decorative only).
+const _icon = (paths) => ({ size = 18, className = '', ...rest }) =>
+  React.createElement('svg', {
+    width: size, height: size, viewBox: '0 0 24 24', fill: 'none',
+    stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round',
+    className, ...rest
+  }, paths.map((d, i) => React.createElement('path', { key: i, d })));
+const Stethoscope   = _icon(['M4 3v6a4 4 0 0 0 8 0V3','M8 13v3a5 5 0 0 0 10 0v-2','M18 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4z']);
+const Brain         = _icon(['M9 3a3 3 0 0 0-3 3v0a3 3 0 0 0-3 3 3 3 0 0 0 1 2.2A3 3 0 0 0 6 18a3 3 0 0 0 3 3V3z','M15 3a3 3 0 0 1 3 3v0a3 3 0 0 1 3 3 3 3 0 0 1-1 2.2A3 3 0 0 1 18 18a3 3 0 0 1-3 3V3z']);
+const AlertTriangle = _icon(['M12 3l10 18H2L12 3z','M12 10v5','M12 18h.01']);
+const FileText      = _icon(['M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9l-6-6z','M14 3v6h6','M8 13h8','M8 17h8','M8 9h2']);
+const Activity      = _icon(['M22 12h-4l-3 9-6-18-3 9H2']);
+const Play          = _icon(['M6 4l14 8-14 8V4z']);
 
 const cases = [
   {
