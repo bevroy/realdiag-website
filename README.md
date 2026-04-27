@@ -1,6 +1,6 @@
 # RealDiag Website
 
-This repository hosts the public landing page for [RealDiag](https://realdiag.org).
+This repository hosts the public landing page for [RealDiag](https://realdiag.com).
 
 ## Deployment
 
@@ -12,12 +12,12 @@ The site is published using **GitHub Pages**.
 3. Under "Source," select the **main branch** and root (`/`) folder.
 4. Save, and GitHub will publish your site at:
    - https://<your-username>.github.io/realdiag-website
-   - You can point your domain **realdiag.org** to this by adding a DNS `CNAME` record.
+   - You can point your domain **realdiag.com** to this by adding a DNS `CNAME` record.
 
 ### Custom Domain Setup
 - In your repo, add a file called `CNAME` with this inside:
   ```
-  realdiag.org
+  www.realdiag.com
   ```
 - Update your domain registrar to point to GitHub’s Pages IP addresses:
   ```
@@ -27,4 +27,4 @@ The site is published using **GitHub Pages**.
   185.199.111.153
   ```
 
-Once DNS propagates, **realdiag.org** will display this site 🎉
+Once DNS propagates, **realdiag.com** will display this site 🎉
