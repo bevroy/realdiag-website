@@ -106,6 +106,128 @@ function speak(text, enabled=true){
   }
 }
 
+function CinematicScene({ kind, sceneIndex }){
+  if(!kind) return null;
+  const wrapKey = `scene-${sceneIndex}-${kind}`;
+  const wrap = (children) => (
+    <div key={wrapKey} className='absolute inset-0 flex items-center justify-center p-8 rd-fade'>
+      {children}
+    </div>
+  );
+
+  if(kind === 'opening'){
+    return wrap(
+      <div className='text-center'>
+        <div className='inline-flex px-4 py-2 rounded-full bg-teal-500/20 text-teal-200 text-sm font-medium mb-6'>RealDiag Product Film</div>
+        <div className='text-4xl md:text-6xl font-bold leading-tight text-white'>From diagnostic uncertainty<br/><span className='text-teal-300'>to structured action.</span></div>
+        <div className='text-slate-300 mt-6 text-lg'>In minutes — not days.</div>
+      </div>
+    );
+  }
+
+  if(kind === 'validation'){
+    const stats = [
+      { label: 'Diagnoses', value: '400+' },
+      { label: 'Validation Scenarios', value: '100+' },
+      { label: 'Specialties', value: 'Multi' },
+      { label: 'Validation Model', value: 'IRB Ready' }
+    ];
+    return wrap(
+      <div className='w-full max-w-4xl'>
+        <div className='text-center text-2xl font-semibold mb-8 text-teal-200'>Clinical Validation</div>
+        <div className='grid grid-cols-2 md:grid-cols-4 gap-4'>
+          {stats.map((s, i) => (
+            <div key={s.label}
+                 className='bg-white/5 border border-teal-500/30 rounded-2xl p-6 text-center rd-slide'
+                 style={{ animationDelay: `${i*150}ms` }}>
+              <div className='text-3xl md:text-4xl font-bold text-white'>{s.value}</div>
+              <div className='text-sm text-slate-300 mt-2'>{s.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if(kind === 'workflow'){
+    const steps = ['Open Chart','Review Note','Launch RealDiag','Analyze','Order Tests','Close Visit'];
+    return wrap(
+      <div className='w-full max-w-5xl'>
+        <div className='text-center text-2xl font-semibold mb-8 text-teal-200'>Embedded Physician Workflow</div>
+        <div className='flex items-center justify-between flex-wrap gap-2'>
+          {steps.map((s, i) => (
+            <React.Fragment key={s}>
+              <div className='flex flex-col items-center rd-slide' style={{ animationDelay: `${i*200}ms` }}>
+                <div className='w-12 h-12 md:w-14 md:h-14 rounded-full bg-teal-500/20 border-2 border-teal-400 flex items-center justify-center font-bold text-teal-200'>{i+1}</div>
+                <div className='text-xs mt-2 text-slate-200 max-w-[80px] text-center'>{s}</div>
+              </div>
+              {i < steps.length-1 && (
+                <div className='flex-1 h-0.5 bg-gradient-to-r from-teal-400/60 to-teal-400/10 min-w-[16px] rd-slide'
+                     style={{ animationDelay: `${i*200+100}ms` }} />
+              )}
+            </React.Fragment>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if(kind === 'engine'){
+    const dxs = [
+      { dx: 'New-onset generalized seizure disorder', prob: 58 },
+      { dx: 'Provoked seizure (sleep deprivation)', prob: 19 },
+      { dx: 'Brain lesion / tumor', prob: 11 },
+      { dx: 'Syncope with convulsive activity', prob: 7 },
+      { dx: 'Metabolic abnormality', prob: 5 }
+    ];
+    return wrap(
+      <div className='w-full max-w-3xl'>
+        <div className='text-center text-2xl font-semibold mb-2 text-teal-200'>Diagnostic Engine</div>
+        <div className='text-center text-sm text-slate-300 mb-6'>Patient: 24M — First seizure episode</div>
+        <div className='space-y-3'>
+          {dxs.map((d, i) => (
+            <div key={d.dx} className='rd-slide' style={{ animationDelay: `${i*200}ms` }}>
+              <div className='flex justify-between text-sm mb-1 text-white'>
+                <span>{d.dx}</span>
+                <span className='text-teal-300 font-semibold'>{d.prob}%</span>
+              </div>
+              <div className='h-2.5 bg-white/10 rounded-full overflow-hidden'>
+                <div className='h-full bg-teal-400 rounded-full' style={{ width: `${d.prob}%`, transition: 'width 700ms ease-out' }} />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if(kind === 'roi'){
+    const stats = [
+      { label: 'Diagnostic Accuracy', value: '+25%' },
+      { label: 'Time to Treatment', value: '-30%' },
+      { label: 'Annual Savings', value: '$4.2M' }
+    ];
+    return wrap(
+      <div className='w-full max-w-4xl text-center'>
+        <div className='text-2xl font-semibold mb-8 text-teal-200'>Health System Impact</div>
+        <div className='grid md:grid-cols-3 gap-6'>
+          {stats.map((s, i) => (
+            <div key={s.label}
+                 className='bg-gradient-to-br from-teal-500/20 to-teal-700/10 border border-teal-400/40 rounded-2xl p-6 md:p-8 rd-slide'
+                 style={{ animationDelay: `${i*200}ms` }}>
+              <div className='text-4xl md:text-5xl font-bold text-white'>{s.value}</div>
+              <div className='text-sm text-slate-300 mt-3'>{s.label}</div>
+            </div>
+          ))}
+        </div>
+        <div className='mt-8 text-slate-300 text-sm'>Faster diagnosis. Smarter referrals. Better outcomes.</div>
+      </div>
+    );
+  }
+
+  return null;
+}
+
 function RealDiagDemo(){
   const heroRef = useRef(null);
   const validationRef = useRef(null);
@@ -120,6 +242,12 @@ function RealDiagDemo(){
   const [isPlayingVideo, setIsPlayingVideo] = useState(false);
   const [videoProgress, setVideoProgress] = useState(0);
   const [currentSceneTitle, setCurrentSceneTitle] = useState('Opening Narrative');
+  const [activeSceneIndex, setActiveSceneIndex] = useState(-1);
+
+  const sceneHighlight = (idx) =>
+    isPlayingVideo && activeSceneIndex === idx
+      ? 'ring-4 ring-teal-400 ring-offset-2 ring-offset-slate-50 transition-all duration-500'
+      : 'transition-all duration-500';
 
   const stopNarration = () => {
     if(tourRef.current) clearTimeout(tourRef.current);
@@ -132,53 +260,59 @@ function RealDiagDemo(){
     {
       title: 'Opening Narrative',
       ref: heroRef,
-      text: 'Welcome to RealDiag. This demo shows how clinicians move from diagnostic uncertainty to structured action in minutes.'
+      text: 'Welcome to RealDiag. This demo shows how clinicians move from diagnostic uncertainty to structured action in minutes.',
+      visual: 'opening'
     },
     {
       title: 'Clinical Validation',
       ref: validationRef,
-      text: 'RealDiag has validation across hundreds of diagnoses and clinical scenarios.'
+      text: 'RealDiag has validation across hundreds of diagnoses and clinical scenarios.',
+      visual: 'validation'
     },
     {
       title: 'Clinical Workflow',
       ref: workflowRef,
-      text: 'RealDiag fits directly into physician workflow and existing electronic health records.'
+      text: 'RealDiag fits directly into physician workflow and existing electronic health records.',
+      visual: 'workflow'
     },
     {
       title: 'Diagnostic Engine',
       ref: diagnosticRef,
-      text: 'Now watch RealDiag evaluate a first seizure patient and generate recommendations.'
+      text: 'Now watch RealDiag evaluate a first seizure patient and generate recommendations.',
+      visual: 'engine'
     },
     {
       title: 'ROI Impact',
       ref: roiRef,
-      text: 'The result is faster diagnosis, fewer delays, and major cost savings.'
+      text: 'The result is faster diagnosis, fewer delays, and major cost savings.',
+      visual: 'roi'
     }
   ];
+
+  const SceneVisual = () => null;
 
   const startNarratedTour = () => {
     setIsPlayingVideo(true);
     setVideoProgress(0);
     stopNarration();
     setAnalyzed(false);
+    setActiveSceneIndex(-1);
     let i = 0;
 
     const runStep = () => {
       if(i >= cinematicSections.length){
-        setIsPlayingVideo(false);
         setVideoProgress(100);
+        setActiveSceneIndex(-1);
         speak('Demo complete.', voiceEnabled);
+        tourRef.current = setTimeout(() => setIsPlayingVideo(false), 2500);
         return;
       }
 
       const section = cinematicSections[i];
       setCurrentSceneTitle(section.title);
       setTourStep(i);
+      setActiveSceneIndex(i);
       setVideoProgress(((i+1)/cinematicSections.length)*100);
-
-      if(section.ref?.current){
-        section.ref.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
 
       if(i === 3){
         setTimeout(() => setAnalyzed(true), 1200);
@@ -197,28 +331,50 @@ function RealDiagDemo(){
     setTimeout(() => setAnalyzed(true), 1200);
   };
 
+  const currentVisualKind = activeSceneIndex >= 0 && cinematicSections[activeSceneIndex]
+    ? cinematicSections[activeSceneIndex].visual
+    : null;
+
   return (
     <div className='min-h-screen bg-slate-50 p-6'>
+      <style>{`
+        @keyframes rd_fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes rd_slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .rd-fade { animation: rd_fadeIn 0.8s ease-out both; }
+        .rd-slide { animation: rd_slideUp 0.6s ease-out both; }
+      `}</style>
       <div className='max-w-7xl mx-auto space-y-6'>
         {isPlayingVideo && (
-          <div className='bg-black text-white rounded-3xl p-4 mb-6 shadow-2xl'>
-            <div className='flex justify-between items-center mb-3'>
+          <div className='bg-black text-white rounded-3xl shadow-2xl border border-teal-500/40 overflow-hidden mb-6'>
+            <div className='flex justify-between items-center px-5 pt-4 pb-3'>
               <div>
-              <div className='font-semibold text-lg tracking-wide'>RealDiag Product Film</div>
-              <div className='text-sm text-teal-300 mt-1'>{currentSceneTitle}</div>
-            </div>
-              <div className='text-sm text-slate-300'>{Math.round(videoProgress)}% Complete</div>
+                <div className='font-semibold text-lg tracking-wide'>RealDiag Product Film</div>
+                <div className='text-sm text-teal-300 mt-1'>{currentSceneTitle}</div>
+              </div>
+              <div className='flex items-center gap-3'>
+                <div className='text-sm text-slate-300'>{Math.round(videoProgress)}% Complete</div>
+                <button
+                  onClick={() => { stopNarration(); setIsPlayingVideo(false); setActiveSceneIndex(-1); }}
+                  className='text-xs bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-full'
+                >Close</button>
+              </div>
             </div>
 
-            <div className='w-full h-3 bg-slate-700 rounded-full overflow-hidden'>
-              <div
-                className='h-full bg-teal-500 transition-all duration-1000'
-                style={{ width: `${videoProgress}%` }}
-              />
+            <div className='relative bg-gradient-to-br from-slate-950 via-slate-900 to-teal-950 mx-5 rounded-2xl overflow-hidden' style={{ minHeight: '420px' }}>
+              <CinematicScene kind={currentVisualKind} sceneIndex={activeSceneIndex} />
             </div>
 
-            <div className='mt-3 text-sm text-slate-300'>
-              Premium guided product walkthrough in progress...
+            <div className='px-5 pt-4 pb-5'>
+              <div className='w-full h-2 bg-slate-700 rounded-full overflow-hidden'>
+                <div
+                  className='h-full bg-teal-500 transition-all duration-1000'
+                  style={{ width: `${videoProgress}%` }}
+                />
+              </div>
+              <div className='mt-3 flex justify-between text-xs text-slate-400'>
+                <span>Scene {Math.max(activeSceneIndex+1, 0)} of {cinematicSections.length}</span>
+                <span>{cinematicSections.map((s, i) => i === activeSceneIndex ? '●' : '○').join(' ')}</span>
+              </div>
             </div>
           </div>
         )}
@@ -228,7 +384,7 @@ function RealDiagDemo(){
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           ref={heroRef}
-          className='bg-gradient-to-r from-slate-900 to-teal-700 text-white rounded-3xl p-6 shadow-2xl'>
+          className={`bg-gradient-to-r from-slate-900 to-teal-700 text-white rounded-3xl p-6 shadow-2xl ${sceneHighlight(0)}`}>
           <div className='flex items-center justify-between flex-wrap gap-4'>
             <div>
               <h1 className='text-4xl font-bold'>RealDiag</h1>
@@ -257,7 +413,7 @@ function RealDiagDemo(){
           </div>
         </motion.div>
 
-        <div ref={validationRef} className='bg-white rounded-3xl shadow-lg border border-slate-200 p-6 mb-6'>
+        <div ref={validationRef} className={`bg-white rounded-3xl shadow-lg border border-slate-200 p-6 mb-6 ${sceneHighlight(1)}`}>
           <h2 className='font-bold text-xl mb-4'>Clinical Validation Layer</h2>
           <div className='grid md:grid-cols-4 gap-4'>
             <div className='bg-slate-50 rounded-2xl p-4 text-center'>
@@ -288,7 +444,7 @@ function RealDiagDemo(){
           ))}
         </div>
 
-        <div ref={workflowRef} className='bg-gradient-to-r from-slate-900 to-teal-700 text-white rounded-3xl p-6 mb-6'>
+        <div ref={workflowRef} className={`bg-gradient-to-r from-slate-900 to-teal-700 text-white rounded-3xl p-6 mb-6 ${sceneHighlight(2)}`}>
           <h2 className='text-2xl font-bold mb-4'>Live Physician Workflow</h2>
           <div className='grid md:grid-cols-6 gap-4 text-center'>
             <div className='bg-white/10 rounded-2xl p-4'>
@@ -342,7 +498,7 @@ function RealDiagDemo(){
           </div>
         </div>
 
-        <div ref={diagnosticRef} className='grid lg:grid-cols-4 gap-6'>
+        <div ref={diagnosticRef} className={`grid lg:grid-cols-4 gap-6 rounded-3xl p-2 ${sceneHighlight(3)}`}>
           <Card>
             <h2 className='font-bold text-xl mb-4 flex items-center gap-2'><FileText size={18}/> Patient Cases</h2>
             <div className='space-y-3'>
@@ -439,6 +595,7 @@ function RealDiagDemo(){
               )}
             </AnimatePresence>
 
+            <div ref={roiRef} className={`rounded-3xl ${sceneHighlight(4)}`}>
             <Card>
               <h2 className='font-bold text-xl mb-4 flex items-center gap-2'><AlertTriangle size={18}/> Before vs After RealDiag</h2>
 
@@ -479,6 +636,7 @@ function RealDiagDemo(){
                 </div>
               </div>
             </Card>
+            </div>
           </div>
         </div>
       </div>
