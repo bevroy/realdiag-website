@@ -95,13 +95,66 @@ const narrationSteps = [
   'The result is faster diagnosis, fewer delays, and lower health system costs.'
 ];
 
+// Pick the most natural-sounding English voice available in the browser.
+// Prefers neural / online voices (Google, Microsoft Natural, Apple premium) over
+// the default robotic eSpeak fallback found on many Linux/Chromium systems.
+let _cachedVoice = null;
+function pickBestVoice(){
+  if(_cachedVoice) return _cachedVoice;
+  if(typeof window === 'undefined' || !('speechSynthesis' in window)) return null;
+  const voices = window.speechSynthesis.getVoices() || [];
+  if(!voices.length) return null;
+
+  const en = voices.filter(v => /^en(-|_|$)/i.test(v.lang));
+  const pool = en.length ? en : voices;
+
+  // Ranked patterns — higher score = more natural sounding.
+  const ranked = [
+    /Google US English/i,
+    /Google UK English Female/i,
+    /Microsoft .*(Aria|Jenny|Guy|Sonia|Ryan|Natasha|Libby|Emma).*Online \(Natural\)/i,
+    /Microsoft .*(Aria|Jenny|Guy|Sonia|Ryan).*Online/i,
+    /Microsoft .*(Aria|Jenny|Guy)/i,
+    /(Samantha|Ava|Allison|Susan|Karen|Serena|Moira|Tessa|Daniel) \(Premium\)/i,
+    /(Samantha|Ava|Allison|Susan|Karen|Serena|Moira|Tessa|Daniel) \(Enhanced\)/i,
+    /Samantha|Ava|Allison|Susan|Karen|Serena|Moira|Tessa|Daniel/i,
+    /Google/i,
+    /Microsoft/i,
+    /Natural|Neural|Premium|Enhanced/i
+  ];
+
+  for(const rx of ranked){
+    const hit = pool.find(v => rx.test(v.name));
+    if(hit){ _cachedVoice = hit; return hit; }
+  }
+  // Avoid eSpeak / default robotic voice if anything else is available.
+  const nonEspeak = pool.find(v => !/espeak/i.test(v.name));
+  _cachedVoice = nonEspeak || pool[0];
+  return _cachedVoice;
+}
+
+if(typeof window !== 'undefined' && 'speechSynthesis' in window){
+  // Voice list often loads asynchronously; refresh cache when it arrives.
+  window.speechSynthesis.onvoiceschanged = () => { _cachedVoice = null; pickBestVoice(); };
+  pickBestVoice();
+}
+
 function speak(text, enabled=true){
   if(!enabled) return;
   if(typeof window !== 'undefined' && 'speechSynthesis' in window){
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = 1;
-    utterance.pitch = 1;
+    const voice = pickBestVoice();
+    if(voice){
+      utterance.voice = voice;
+      utterance.lang = voice.lang || 'en-US';
+    } else {
+      utterance.lang = 'en-US';
+    }
+    // Slightly slower + slightly lower pitch reads as more conversational.
+    utterance.rate = 0.95;
+    utterance.pitch = 0.95;
+    utterance.volume = 1;
     window.speechSynthesis.speak(utterance);
   }
 }
@@ -150,52 +203,28 @@ function CinematicScene({ kind, sceneIndex }){
   }
 
   if(kind === 'workflow'){
-    const steps = ['Open Chart','Review Note','Launch RealDiag','Analyze','Order Tests','Close Visit'];
     return wrap(
       <div className='w-full max-w-5xl'>
-        <div className='text-center text-2xl font-semibold mb-8 text-teal-200'>Embedded Physician Workflow</div>
-        <div className='flex items-center justify-between flex-wrap gap-2'>
-          {steps.map((s, i) => (
-            <React.Fragment key={s}>
-              <div className='flex flex-col items-center rd-slide' style={{ animationDelay: `${i*200}ms` }}>
-                <div className='w-12 h-12 md:w-14 md:h-14 rounded-full bg-teal-500/20 border-2 border-teal-400 flex items-center justify-center font-bold text-teal-200'>{i+1}</div>
-                <div className='text-xs mt-2 text-slate-200 max-w-[80px] text-center'>{s}</div>
-              </div>
-              {i < steps.length-1 && (
-                <div className='flex-1 h-0.5 bg-gradient-to-r from-teal-400/60 to-teal-400/10 min-w-[16px] rd-slide'
-                     style={{ animationDelay: `${i*200+100}ms` }} />
-              )}
-            </React.Fragment>
-          ))}
+        <div className='text-center text-2xl font-semibold mb-4 text-teal-200'>Embedded Physician Workflow</div>
+        <div className='text-center text-sm text-slate-300 mb-6'>Clinicians enter symptoms directly inside the RealDiag console.</div>
+        <div className='rounded-2xl overflow-hidden border border-teal-500/30 shadow-2xl bg-white rd-slide'>
+          <img src='assets/images/screenshots/symptom-entry.png'
+               alt='RealDiag symptom entry screen'
+               className='w-full block' />
         </div>
       </div>
     );
   }
 
   if(kind === 'engine'){
-    const dxs = [
-      { dx: 'New-onset generalized seizure disorder', prob: 58 },
-      { dx: 'Provoked seizure (sleep deprivation)', prob: 19 },
-      { dx: 'Brain lesion / tumor', prob: 11 },
-      { dx: 'Syncope with convulsive activity', prob: 7 },
-      { dx: 'Metabolic abnormality', prob: 5 }
-    ];
     return wrap(
-      <div className='w-full max-w-3xl'>
+      <div className='w-full max-w-5xl'>
         <div className='text-center text-2xl font-semibold mb-2 text-teal-200'>Diagnostic Engine</div>
         <div className='text-center text-sm text-slate-300 mb-6'>Patient: 24M — First seizure episode</div>
-        <div className='space-y-3'>
-          {dxs.map((d, i) => (
-            <div key={d.dx} className='rd-slide' style={{ animationDelay: `${i*200}ms` }}>
-              <div className='flex justify-between text-sm mb-1 text-white'>
-                <span>{d.dx}</span>
-                <span className='text-teal-300 font-semibold'>{d.prob}%</span>
-              </div>
-              <div className='h-2.5 bg-white/10 rounded-full overflow-hidden'>
-                <div className='h-full bg-teal-400 rounded-full' style={{ width: `${d.prob}%`, transition: 'width 700ms ease-out' }} />
-              </div>
-            </div>
-          ))}
+        <div className='rounded-2xl overflow-hidden border border-teal-500/30 shadow-2xl bg-white rd-slide'>
+          <img src='assets/images/screenshots/results-displayed.png'
+               alt='RealDiag ranked diagnostic results'
+               className='w-full block' />
         </div>
       </div>
     );
@@ -471,6 +500,40 @@ function RealDiagDemo(){
               <div className='font-semibold'>Close Visit</div>
               <div className='text-sm mt-2 text-slate-200'>Documentation complete</div>
             </div>
+          </div>
+        </div>
+
+        <div className='bg-white rounded-3xl shadow-lg border border-slate-200 p-6 mb-6'>
+          <div className='flex items-end justify-between flex-wrap gap-2 mb-5'>
+            <div>
+              <h2 className='font-bold text-xl'>Inside the Application</h2>
+              <p className='text-sm text-slate-500 mt-1'>Real screens from the RealDiag clinician interface.</p>
+            </div>
+            <div className='text-xs text-slate-400'>Live product preview</div>
+          </div>
+          <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-5'>
+            {[
+              { src: 'assets/images/screenshots/symptom-search.png', label: 'Symptom Search', caption: 'Enter symptoms, demographics, and specialty filters.' },
+              { src: 'assets/images/screenshots/results-displayed.png', label: 'Ranked Results', caption: 'Diagnoses ranked by likelihood with matched symptoms.' },
+              { src: 'assets/images/screenshots/typical-presentation.png', label: 'Typical Presentation', caption: 'Pattern recognition with ICD-10 and SNOMED codes.' },
+              { src: 'assets/images/screenshots/recommended-workup.png', label: 'Recommended Workup', caption: 'Diagnostic tests aligned to evidence-based guidelines.' },
+              { src: 'assets/images/screenshots/management.png', label: 'Management', caption: 'Acute care, medications, and counseling guidance.' },
+              { src: 'assets/images/screenshots/specialist-referral.png', label: 'Specialist Referral', caption: 'Triage-ready emergency, urgent, and routine referrals.' },
+              { src: 'assets/images/screenshots/clinical-pearls.png', label: 'Clinical Pearls', caption: 'High-yield clinical reminders at the point of care.' },
+              { src: 'assets/images/screenshots/symptom-entry.png', label: 'Symptom Entry', caption: 'Structured symptom capture with chip-style tagging.' }
+            ].map(shot => (
+              <figure key={shot.label} className='group rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 hover:shadow-xl transition'>
+                <div className='aspect-[16/9] overflow-hidden bg-white'>
+                  <img src={shot.src} alt={shot.label}
+                       loading='lazy'
+                       className='w-full h-full object-cover object-top group-hover:scale-[1.02] transition-transform duration-500' />
+                </div>
+                <figcaption className='p-4'>
+                  <div className='font-semibold text-slate-800 text-sm'>{shot.label}</div>
+                  <div className='text-xs text-slate-500 mt-1'>{shot.caption}</div>
+                </figcaption>
+              </figure>
+            ))}
           </div>
         </div>
 
