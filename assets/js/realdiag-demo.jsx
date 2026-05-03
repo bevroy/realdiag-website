@@ -143,7 +143,10 @@ function speak(text, enabled=true){
   if(!enabled) return;
   if(typeof window !== 'undefined' && 'speechSynthesis' in window){
     window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
+    // Rewrite "RealDiag" phonetically so TTS engines say "real die agg"
+    // instead of "real-dee-ag" or "real-dyge".
+    const spoken = text.replace(/RealDiag/g, 'Real Dye Agg');
+    const utterance = new SpeechSynthesisUtterance(spoken);
     const voice = pickBestVoice();
     if(voice){
       utterance.voice = voice;
@@ -203,9 +206,32 @@ function CinematicScene({ kind, sceneIndex }){
   }
 
   if(kind === 'workflow'){
+    const steps = ['Open Chart','Review Note','Launch RealDiag','Analyze','Order Tests','Close Visit'];
     return wrap(
       <div className='w-full max-w-5xl'>
-        <div className='text-center text-2xl font-semibold mb-4 text-teal-200'>Embedded Physician Workflow</div>
+        <div className='text-center text-2xl font-semibold mb-8 text-teal-200'>Embedded Physician Workflow</div>
+        <div className='flex items-center justify-between flex-wrap gap-2'>
+          {steps.map((s, i) => (
+            <React.Fragment key={s}>
+              <div className='flex flex-col items-center rd-slide' style={{ animationDelay: `${i*200}ms` }}>
+                <div className='w-12 h-12 md:w-14 md:h-14 rounded-full bg-teal-500/20 border-2 border-teal-400 flex items-center justify-center font-bold text-teal-200'>{i+1}</div>
+                <div className='text-xs mt-2 text-slate-200 max-w-[80px] text-center'>{s}</div>
+              </div>
+              {i < steps.length-1 && (
+                <div className='flex-1 h-0.5 bg-gradient-to-r from-teal-400/60 to-teal-400/10 min-w-[16px] rd-slide'
+                     style={{ animationDelay: `${i*200+100}ms` }} />
+              )}
+            </React.Fragment>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if(kind === 'symptomEntry'){
+    return wrap(
+      <div className='w-full max-w-5xl'>
+        <div className='text-center text-2xl font-semibold mb-2 text-teal-200'>Structured Symptom Capture</div>
         <div className='text-center text-sm text-slate-300 mb-6'>Clinicians enter symptoms directly inside the RealDiag console.</div>
         <div className='rounded-2xl overflow-hidden border border-teal-500/30 shadow-2xl bg-white rd-slide'>
           <img src='assets/images/screenshots/symptom-entry.png'
@@ -216,14 +242,127 @@ function CinematicScene({ kind, sceneIndex }){
     );
   }
 
-  if(kind === 'engine'){
+  if(kind === 'symptomSearch'){
     return wrap(
       <div className='w-full max-w-5xl'>
+        <div className='text-center text-2xl font-semibold mb-2 text-teal-200'>Refined Symptom Search</div>
+        <div className='text-center text-sm text-slate-300 mb-6'>Filter by age, sex, and specialty for precise differentials.</div>
+        <div className='rounded-2xl overflow-hidden border border-teal-500/30 shadow-2xl bg-white rd-slide'>
+          <img src='assets/images/screenshots/symptom-search.png'
+               alt='RealDiag symptom search screen'
+               className='w-full block' />
+        </div>
+      </div>
+    );
+  }
+
+  if(kind === 'engine'){
+    const dxs = [
+      { dx: 'New-onset generalized seizure disorder', prob: 58 },
+      { dx: 'Provoked seizure (sleep deprivation)', prob: 19 },
+      { dx: 'Brain lesion / tumor', prob: 11 },
+      { dx: 'Syncope with convulsive activity', prob: 7 },
+      { dx: 'Metabolic abnormality', prob: 5 }
+    ];
+    return wrap(
+      <div className='w-full max-w-3xl'>
         <div className='text-center text-2xl font-semibold mb-2 text-teal-200'>Diagnostic Engine</div>
         <div className='text-center text-sm text-slate-300 mb-6'>Patient: 24M — First seizure episode</div>
+        <div className='space-y-3'>
+          {dxs.map((d, i) => (
+            <div key={d.dx} className='rd-slide' style={{ animationDelay: `${i*200}ms` }}>
+              <div className='flex justify-between text-sm mb-1 text-white'>
+                <span>{d.dx}</span>
+                <span className='text-teal-300 font-semibold'>{d.prob}%</span>
+              </div>
+              <div className='h-2.5 bg-white/10 rounded-full overflow-hidden'>
+                <div className='h-full bg-teal-400 rounded-full' style={{ width: `${d.prob}%`, transition: 'width 700ms ease-out' }} />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if(kind === 'rankedResults'){
+    return wrap(
+      <div className='w-full max-w-5xl'>
+        <div className='text-center text-2xl font-semibold mb-2 text-teal-200'>Ranked Diagnostic Results</div>
+        <div className='text-center text-sm text-slate-300 mb-6'>Likelihood-sorted diagnoses with matched symptoms.</div>
         <div className='rounded-2xl overflow-hidden border border-teal-500/30 shadow-2xl bg-white rd-slide'>
           <img src='assets/images/screenshots/results-displayed.png'
                alt='RealDiag ranked diagnostic results'
+               className='w-full block' />
+        </div>
+      </div>
+    );
+  }
+
+  if(kind === 'presentation'){
+    return wrap(
+      <div className='w-full max-w-5xl'>
+        <div className='text-center text-2xl font-semibold mb-2 text-teal-200'>Typical Presentation</div>
+        <div className='text-center text-sm text-slate-300 mb-6'>Pattern recognition with ICD-10 and SNOMED coding built in.</div>
+        <div className='rounded-2xl overflow-hidden border border-teal-500/30 shadow-2xl bg-white rd-slide'>
+          <img src='assets/images/screenshots/typical-presentation.png'
+               alt='Typical presentation screen with diagnostic codes'
+               className='w-full block' />
+        </div>
+      </div>
+    );
+  }
+
+  if(kind === 'workup'){
+    return wrap(
+      <div className='w-full max-w-5xl'>
+        <div className='text-center text-2xl font-semibold mb-2 text-teal-200'>Recommended Workup</div>
+        <div className='text-center text-sm text-slate-300 mb-6'>Diagnostic tests aligned to evidence-based guidelines.</div>
+        <div className='rounded-2xl overflow-hidden border border-teal-500/30 shadow-2xl bg-white rd-slide'>
+          <img src='assets/images/screenshots/recommended-workup.png'
+               alt='Recommended workup screen'
+               className='w-full block' />
+        </div>
+      </div>
+    );
+  }
+
+  if(kind === 'management'){
+    return wrap(
+      <div className='w-full max-w-5xl'>
+        <div className='text-center text-2xl font-semibold mb-2 text-teal-200'>Management Guidance</div>
+        <div className='text-center text-sm text-slate-300 mb-6'>Acute care, medications, and counseling at the point of care.</div>
+        <div className='rounded-2xl overflow-hidden border border-teal-500/30 shadow-2xl bg-white rd-slide'>
+          <img src='assets/images/screenshots/management.png'
+               alt='Management guidance screen'
+               className='w-full block' />
+        </div>
+      </div>
+    );
+  }
+
+  if(kind === 'referral'){
+    return wrap(
+      <div className='w-full max-w-5xl'>
+        <div className='text-center text-2xl font-semibold mb-2 text-teal-200'>Specialist Referral</div>
+        <div className='text-center text-sm text-slate-300 mb-6'>Triage-ready emergency, urgent, and routine referral pathways.</div>
+        <div className='rounded-2xl overflow-hidden border border-teal-500/30 shadow-2xl bg-white rd-slide'>
+          <img src='assets/images/screenshots/specialist-referral.png'
+               alt='Specialist referral screen'
+               className='w-full block' />
+        </div>
+      </div>
+    );
+  }
+
+  if(kind === 'pearls'){
+    return wrap(
+      <div className='w-full max-w-5xl'>
+        <div className='text-center text-2xl font-semibold mb-2 text-teal-200'>Clinical Pearls</div>
+        <div className='text-center text-sm text-slate-300 mb-6'>High-yield reminders surfaced in real time for the clinician.</div>
+        <div className='rounded-2xl overflow-hidden border border-teal-500/30 shadow-2xl bg-white rd-slide'>
+          <img src='assets/images/screenshots/clinical-pearls.png'
+               alt='Clinical pearls screen'
                className='w-full block' />
         </div>
       </div>
@@ -305,10 +444,58 @@ function RealDiagDemo(){
       visual: 'workflow'
     },
     {
+      title: 'Symptom Entry',
+      ref: workflowRef,
+      text: 'Inside RealDiag, the clinician captures structured symptoms with chip-style tagging for fast, precise input.',
+      visual: 'symptomEntry'
+    },
+    {
+      title: 'Symptom Search',
+      ref: workflowRef,
+      text: 'Filters for age, sex, and specialty refine the search so the differential is tailored to the patient in front of you.',
+      visual: 'symptomSearch'
+    },
+    {
       title: 'Diagnostic Engine',
       ref: diagnosticRef,
-      text: 'Now watch RealDiag evaluate a first seizure patient and generate recommendations.',
+      text: 'Now watch RealDiag evaluate a first seizure patient and generate a ranked differential diagnosis.',
       visual: 'engine'
+    },
+    {
+      title: 'Ranked Results',
+      ref: diagnosticRef,
+      text: 'Results are displayed inline with matched symptoms, so clinicians can see exactly why each diagnosis was suggested.',
+      visual: 'rankedResults'
+    },
+    {
+      title: 'Typical Presentation',
+      ref: diagnosticRef,
+      text: 'For each diagnosis, RealDiag surfaces the typical presentation along with ICD-10 and SNOMED codes for documentation.',
+      visual: 'presentation'
+    },
+    {
+      title: 'Recommended Workup',
+      ref: diagnosticRef,
+      text: 'RealDiag recommends a guideline-aligned workup, including labs, imaging, and EEG timing.',
+      visual: 'workup'
+    },
+    {
+      title: 'Management',
+      ref: diagnosticRef,
+      text: 'Acute management, medications, and patient counseling are surfaced in one consolidated view.',
+      visual: 'management'
+    },
+    {
+      title: 'Specialist Referral',
+      ref: diagnosticRef,
+      text: 'Specialist referrals are pre-triaged into emergency, urgent, and routine pathways.',
+      visual: 'referral'
+    },
+    {
+      title: 'Clinical Pearls',
+      ref: diagnosticRef,
+      text: 'High-yield clinical pearls keep critical reminders front and center at the point of care.',
+      visual: 'pearls'
     },
     {
       title: 'ROI Impact',
@@ -343,7 +530,7 @@ function RealDiagDemo(){
       setActiveSceneIndex(i);
       setVideoProgress(((i+1)/cinematicSections.length)*100);
 
-      if(i === 3){
+      if(section.visual === 'engine'){
         setTimeout(() => setAnalyzed(true), 1200);
       }
 
@@ -464,8 +651,8 @@ function RealDiagDemo(){
           </div>
         </div>
 
-        <div className='mb-4 flex gap-2'>
-          {[0,1,2,3,4,5].map((dot)=>(
+        <div className='mb-4 flex gap-2 flex-wrap'>
+          {cinematicSections.map((_, dot)=>(
             <div
               key={dot}
               className={`w-3 h-3 rounded-full ${dot <= tourStep ? 'bg-teal-600' : 'bg-slate-300'}`}
