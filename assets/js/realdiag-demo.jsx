@@ -667,22 +667,11 @@ function RealDiagDemo(){
               <p className='text-slate-200 mt-2'>Probabilistic diagnostic support for faster, more accurate clinical decision-making.</p>
             </div>
             <div className='flex gap-3 flex-wrap'>
-            <button onClick={runAnalysis} className='bg-white text-teal-700 px-5 py-3 rounded-xl font-semibold flex items-center gap-2'>
-              <Play size={18}/> Run Demo
-            </button>
-
             <button
               onClick={startNarratedTour}
               className='bg-teal-900 text-white px-5 py-3 rounded-xl font-semibold flex items-center gap-2'
             >
               <Play size={18}/> Play Product Film
-            </button>
-
-            <button
-              onClick={() => setVoiceEnabled(!voiceEnabled)}
-              className='bg-white/20 text-white px-5 py-3 rounded-xl font-semibold'
-            >
-              Voice: {voiceEnabled ? 'On' : 'Off'}
             </button>
           </div>
           </div>
