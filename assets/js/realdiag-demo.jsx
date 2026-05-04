@@ -148,7 +148,9 @@ function estimateSpeechMs(text){
 }
 
 function speak(text, enabled=true, onEnd){
-  const spoken = (text || '').replace(/RealDiag/g, 'Real Dye-ag');
+  // Most browser TTS engines stress the first syllable of a single token, so
+  // collapsing "Dye-ag" into one word ("Dyeag") puts the emphasis on DYE.
+  const spoken = (text || '').replace(/RealDiag/g, 'Real Dyeag');
   const fireEnd = () => { if(typeof onEnd === 'function') onEnd(); };
 
   if(!enabled || typeof window === 'undefined' || !('speechSynthesis' in window)){
