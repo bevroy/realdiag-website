@@ -683,14 +683,27 @@ function RealDiagDemo(){
             >
               <Play size={18}/> Play Product Film
             </button>
-            <a
-              href='assets/video/realdiag-product-film.mp4'
-              download='RealDiag-Product-Film.mp4'
-              className='bg-white text-teal-700 px-5 py-3 rounded-xl font-semibold flex items-center gap-2 hover:bg-teal-50'
-              title='Download MP4 (1080p, ~1:44, 3.7 MB)'
-            >
-              ⬇ Download Video
-            </a>
+            <div className='flex flex-wrap gap-2 items-center bg-white/10 rounded-xl px-3 py-2'>
+              <span className='text-xs uppercase tracking-wide text-slate-200 font-semibold mr-1'>Download:</span>
+              <a
+                href='assets/video/realdiag-product-film.mp4'
+                download='RealDiag-Product-Film-1080p.mp4'
+                className='bg-white text-teal-700 px-3 py-1.5 rounded-lg text-sm font-semibold hover:bg-teal-50'
+                title='1920x1080 \u2014 LinkedIn, X, YouTube, Facebook'
+              >16:9 \u00b7 1080p</a>
+              <a
+                href='assets/video/realdiag-product-film-vertical.mp4'
+                download='RealDiag-Product-Film-Vertical.mp4'
+                className='bg-white text-teal-700 px-3 py-1.5 rounded-lg text-sm font-semibold hover:bg-teal-50'
+                title='1080x1920 \u2014 Reels, TikTok, LinkedIn vertical'
+              >9:16 \u00b7 Vertical</a>
+              <a
+                href='assets/video/realdiag-product-film-square.mp4'
+                download='RealDiag-Product-Film-Square.mp4'
+                className='bg-white text-teal-700 px-3 py-1.5 rounded-lg text-sm font-semibold hover:bg-teal-50'
+                title='1080x1080 \u2014 Instagram feed, LinkedIn feed'
+              >1:1 \u00b7 Square</a>
+            </div>
           </div>
           </div>
         </motion.div>

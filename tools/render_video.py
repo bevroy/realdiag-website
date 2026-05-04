@@ -177,7 +177,32 @@ async def main() -> None:
 
     concat_clips(clip_paths, FINAL_MP4)
     size_mb = FINAL_MP4.stat().st_size / (1024 * 1024)
-    print(f"\nDone. {FINAL_MP4.relative_to(ROOT)}  ({size_mb:.1f} MB, {total:.1f}s)")
+    print(f"\nMaster: {FINAL_MP4.relative_to(ROOT)}  ({size_mb:.1f} MB, {total:.1f}s)")
+
+    # Derive social-media variants by letterboxing onto the target canvas.
+    print("\n[4/4] Building social cuts...")
+    variants = [
+        ("realdiag-product-film-vertical.mp4", 1080, 1920),  # Reels / TikTok / LinkedIn vertical
+        ("realdiag-product-film-square.mp4",   1080, 1080),  # Instagram feed / LinkedIn feed
+    ]
+    for name, w, h in variants:
+        out = OUT_DIR / name
+        # scale=w:h preserving AR via force_original_aspect_ratio=decrease, then pad to fill
+        vf = (
+            f"scale={w}:{h}:force_original_aspect_ratio=decrease,"
+            f"pad={w}:{h}:(ow-iw)/2:(oh-ih)/2:color=#0b1220,setsar=1"
+        )
+        run([
+            "ffmpeg", "-y", "-loglevel", "error",
+            "-i", str(FINAL_MP4),
+            "-vf", vf,
+            "-c:v", "libx264", "-pix_fmt", "yuv420p", "-r", "30",
+            "-c:a", "copy",
+            "-movflags", "+faststart",
+            str(out)
+        ])
+        size = out.stat().st_size / (1024 * 1024)
+        print(f"  {out.relative_to(ROOT)}  ({w}x{h}, {size:.1f} MB)")
 
 
 if __name__ == "__main__":
