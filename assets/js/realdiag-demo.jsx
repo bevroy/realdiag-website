@@ -148,7 +148,7 @@ function estimateSpeechMs(text){
 }
 
 function speak(text, enabled=true, onEnd){
-  const spoken = (text || '').replace(/RealDiag/g, 'Real Dye Agg');
+  const spoken = (text || '').replace(/RealDiag/g, 'Real Dye-ag');
   const fireEnd = () => { if(typeof onEnd === 'function') onEnd(); };
 
   if(!enabled || typeof window === 'undefined' || !('speechSynthesis' in window)){
