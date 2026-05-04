@@ -150,7 +150,14 @@ function estimateSpeechMs(text){
 function speak(text, enabled=true, onEnd){
   // Doubled consonant after the vowel signals a short "a" (as in "bag"),
   // which keeps the second syllable from being reduced to "egg".
-  const spoken = (text || '').replace(/RealDiag/g, 'Real Dyagg');
+  let spoken = (text || '').replace(/RealDiag/g, 'Real Dyagg');
+  // Force letter-by-letter pronunciation for medical acronyms that TTS
+  // engines try to read as words.
+  spoken = spoken.replace(/\bEEG\b/g, 'E E G');
+  spoken = spoken.replace(/\bEKG\b/g, 'E K G');
+  spoken = spoken.replace(/\bEHR\b/g, 'E H R');
+  // Pronounce SNOMED as "snow-med" rather than "snommed".
+  spoken = spoken.replace(/\bSNOMED\b/gi, 'snow med');
   const fireEnd = () => { if(typeof onEnd === 'function') onEnd(); };
 
   if(!enabled || typeof window === 'undefined' || !('speechSynthesis' in window)){
