@@ -683,6 +683,14 @@ function RealDiagDemo(){
             >
               <Play size={18}/> Play Product Film
             </button>
+            <a
+              href='assets/video/realdiag-product-film.mp4'
+              download='RealDiag-Product-Film.mp4'
+              className='bg-white text-teal-700 px-5 py-3 rounded-xl font-semibold flex items-center gap-2 hover:bg-teal-50'
+              title='Download MP4 (1080p, ~1:44, 3.7 MB)'
+            >
+              ⬇ Download Video
+            </a>
           </div>
           </div>
         </motion.div>

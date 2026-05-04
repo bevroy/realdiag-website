@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>RealDiag Render Frame</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    html, body { margin: 0; padding: 0; width: 1920px; height: 1080px; overflow: hidden;
+                 background: linear-gradient(135deg, #020617 0%, #0f172a 60%, #134e4a 100%); }
+    #frame-root { width: 1920px; height: 1080px; }
+    @keyframes rd_fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes rd_slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .rd-fade { animation: rd_fadeIn 0.6s ease-out both; }
+    .rd-slide { animation: rd_slideUp 0.5s ease-out both; }
+  </style>
+</head>
+<body>
+  <div id="frame-root"></div>
+
+  <script type="text/babel" data-presets="react">
+    const { useEffect, useState } = React;
+
+    const SCENES = [
+      { title: 'Opening Narrative',     visual: 'opening' },
+      { title: 'Clinical Validation',   visual: 'validation' },
+      { title: 'Clinical Workflow',     visual: 'workflow' },
+      { title: 'Symptom Entry',         visual: 'symptomEntry' },
+      { title: 'Symptom Search',        visual: 'symptomSearch' },
+      { title: 'Diagnostic Engine',     visual: 'engine' },
+      { title: 'Ranked Results',        visual: 'rankedResults' },
+      { title: 'Typical Presentation',  visual: 'presentation' },
+      { title: 'Recommended Workup',    visual: 'workup' },
+      { title: 'Management',            visual: 'management' },
+      { title: 'Specialist Referral',   visual: 'referral' },
+      { title: 'Clinical Pearls',       visual: 'pearls' },
+      { title: 'ROI Impact',            visual: 'roi' }
+    ];
+
+    function Scene({ kind }) {
+      if (kind === 'opening') {
+        return (
+          <div className='text-center'>
+            <div className='inline-flex px-6 py-3 rounded-full bg-teal-500/20 text-teal-200 text-xl font-medium mb-10'>RealDiag Product Film</div>
+            <div className='text-7xl font-bold leading-tight text-white'>From diagnostic uncertainty<br/><span className='text-teal-300'>to structured action.</span></div>
+            <div className='text-slate-300 mt-10 text-3xl'>In minutes — not days.</div>
+          </div>
+        );
+      }
+      if (kind === 'validation') {
+        const stats = [
+          { label: 'Diagnoses', value: '400+' },
+          { label: 'Validation Scenarios', value: '100+' },
+          { label: 'Specialties', value: 'Multi' },
+          { label: 'Validation Model', value: 'IRB Ready' }
+        ];
+        return (
+          <div className='w-full max-w-6xl'>
+            <div className='text-center text-5xl font-semibold mb-12 text-teal-200'>Clinical Validation</div>
+            <div className='grid grid-cols-4 gap-8'>
+              {stats.map((s) => (
+                <div key={s.label} className='bg-white/5 border border-teal-500/30 rounded-3xl p-10 text-center'>
+                  <div className='text-6xl font-bold text-white'>{s.value}</div>
+                  <div className='text-xl text-slate-300 mt-4'>{s.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      }
+      if (kind === 'workflow') {
+        const steps = ['Open Chart','Review Note','Launch RealDiag','Analyze','Order Tests','Close Visit'];
+        return (
+          <div className='w-full max-w-6xl'>
+            <div className='text-center text-5xl font-semibold mb-16 text-teal-200'>Embedded Physician Workflow</div>
+            <div className='flex items-center justify-between gap-3'>
+              {steps.map((s, i) => (
+                <React.Fragment key={s}>
+                  <div className='flex flex-col items-center'>
+                    <div className='w-24 h-24 rounded-full bg-teal-500/20 border-4 border-teal-400 flex items-center justify-center font-bold text-3xl text-teal-200'>{i+1}</div>
+                    <div className='text-lg mt-3 text-slate-200 max-w-[140px] text-center'>{s}</div>
+                  </div>
+                  {i < steps.length-1 && (
+                    <div className='flex-1 h-1 bg-gradient-to-r from-teal-400/60 to-teal-400/10 min-w-[24px]' />
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
+          </div>
+        );
+      }
+      if (kind === 'engine') {
+        const dxs = [
+          { dx: 'New-onset generalized seizure disorder', prob: 58 },
+          { dx: 'Provoked seizure (sleep deprivation)', prob: 19 },
+          { dx: 'Brain lesion / tumor', prob: 11 },
+          { dx: 'Syncope with convulsive activity', prob: 7 },
+          { dx: 'Metabolic abnormality', prob: 5 }
+        ];
+        return (
+          <div className='w-full max-w-5xl'>
+            <div className='text-center text-5xl font-semibold mb-3 text-teal-200'>Diagnostic Engine</div>
+            <div className='text-center text-2xl text-slate-300 mb-10'>Patient: 24M — First seizure episode</div>
+            <div className='space-y-5'>
+              {dxs.map((d) => (
+                <div key={d.dx}>
+                  <div className='flex justify-between text-2xl mb-2 text-white'>
+                    <span>{d.dx}</span>
+                    <span className='text-teal-300 font-semibold'>{d.prob}%</span>
+                  </div>
+                  <div className='h-5 bg-white/10 rounded-full overflow-hidden'>
+                    <div className='h-full bg-teal-400 rounded-full' style={{ width: `${d.prob}%` }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      }
+      if (kind === 'roi') {
+        const stats = [
+          { label: 'Diagnostic Accuracy',  value: '+25%',  sub: 'vs. baseline workflow' },
+          { label: 'Time to Treatment',    value: '-30%',  sub: 'avg per patient' },
+          { label: 'Annual Savings',       value: '$4.2M', sub: 'per 10k patients/yr' }
+        ];
+        return (
+          <div className='w-full max-w-6xl text-center'>
+            <div className='text-5xl font-semibold mb-12 text-teal-200'>Health System Impact</div>
+            <div className='grid grid-cols-3 gap-10'>
+              {stats.map((s) => (
+                <div key={s.label} className='bg-gradient-to-br from-teal-500/20 to-teal-700/10 border border-teal-400/40 rounded-3xl p-12'>
+                  <div className='text-7xl font-bold text-white'>{s.value}</div>
+                  <div className='text-2xl text-slate-200 mt-5'>{s.label}</div>
+                  <div className='text-base text-slate-400 mt-2'>{s.sub}</div>
+                </div>
+              ))}
+            </div>
+            <div className='mt-12 text-slate-300 text-2xl'>Faster diagnosis. Smarter referrals. Better outcomes.</div>
+          </div>
+        );
+      }
+
+      // Screenshot scenes
+      const SHOTS = {
+        symptomEntry:    { src: '../assets/images/screenshots/symptom-entry.png',       title: 'Structured Symptom Capture', sub: 'Clinicians enter symptoms directly inside the RealDiag console.' },
+        symptomSearch:   { src: '../assets/images/screenshots/symptom-search.png',      title: 'Refined Symptom Search',     sub: 'Filter by age, sex, and specialty for precise differentials.' },
+        rankedResults:   { src: '../assets/images/screenshots/results-displayed.png',   title: 'Ranked Diagnostic Results',  sub: 'Likelihood-sorted diagnoses with matched symptoms.' },
+        presentation:    { src: '../assets/images/screenshots/typical-presentation.png',title: 'Typical Presentation',       sub: 'Pattern recognition with ICD-10 and SNOMED coding built in.' },
+        workup:          { src: '../assets/images/screenshots/recommended-workup.png',  title: 'Recommended Workup',         sub: 'Diagnostic tests aligned to evidence-based guidelines.' },
+        management:      { src: '../assets/images/screenshots/management.png',          title: 'Management Guidance',        sub: 'Acute care, medications, and counseling at the point of care.' },
+        referral:        { src: '../assets/images/screenshots/specialist-referral.png', title: 'Specialist Referral',        sub: 'Triage-ready emergency, urgent, and routine referral pathways.' },
+        pearls:          { src: '../assets/images/screenshots/clinical-pearls.png',     title: 'Clinical Pearls',            sub: 'High-yield reminders surfaced in real time for the clinician.' }
+      };
+      const shot = SHOTS[kind];
+      if (shot) {
+        return (
+          <div className='w-full max-w-[1600px]'>
+            <div className='text-center text-5xl font-semibold mb-3 text-teal-200'>{shot.title}</div>
+            <div className='text-center text-2xl text-slate-300 mb-8'>{shot.sub}</div>
+            <div className='rounded-3xl overflow-hidden border-4 border-teal-500/30 shadow-2xl bg-white flex items-center justify-center' style={{ maxHeight: '720px' }}>
+              <img src={shot.src} alt={shot.title} className='w-full h-auto block' />
+            </div>
+          </div>
+        );
+      }
+
+      return <div className='text-white text-3xl'>Scene: {kind}</div>;
+    }
+
+    function Frame() {
+      const params = new URLSearchParams(window.location.search);
+      const idx = Math.max(0, Math.min(SCENES.length - 1, parseInt(params.get('scene') || '0', 10)));
+      const scene = SCENES[idx];
+
+      // Signal readiness once images load.
+      useEffect(() => {
+        const imgs = Array.from(document.images);
+        if (imgs.length === 0) { window.__sceneReady = true; return; }
+        let pending = imgs.length;
+        const done = () => { if (--pending <= 0) window.__sceneReady = true; };
+        imgs.forEach(img => {
+          if (img.complete) done();
+          else { img.onload = done; img.onerror = done; }
+        });
+      }, []);
+
+      return (
+        <div className='w-full h-full flex items-center justify-center p-16 rd-fade'>
+          <Scene kind={scene.visual} />
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('frame-root')).render(<Frame />);
+  </script>
+</body>
+</html>
