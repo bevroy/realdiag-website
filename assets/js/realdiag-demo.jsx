@@ -139,27 +139,50 @@ if(typeof window !== 'undefined' && 'speechSynthesis' in window){
   pickBestVoice();
 }
 
-function speak(text, enabled=true){
-  if(!enabled) return;
-  if(typeof window !== 'undefined' && 'speechSynthesis' in window){
-    window.speechSynthesis.cancel();
-    // Rewrite "RealDiag" phonetically so TTS engines say "real die agg"
-    // instead of "real-dee-ag" or "real-dyge".
-    const spoken = text.replace(/RealDiag/g, 'Real Dye Agg');
-    const utterance = new SpeechSynthesisUtterance(spoken);
-    const voice = pickBestVoice();
-    if(voice){
-      utterance.voice = voice;
-      utterance.lang = voice.lang || 'en-US';
-    } else {
-      utterance.lang = 'en-US';
-    }
-    // Slightly slower + slightly lower pitch reads as more conversational.
-    utterance.rate = 0.95;
-    utterance.pitch = 0.95;
-    utterance.volume = 1;
-    window.speechSynthesis.speak(utterance);
+// Estimate how long it would take to read `text` if speech synthesis isn't
+// available (used as a fallback so the tour still advances at a sensible pace).
+function estimateSpeechMs(text){
+  const words = (text || '').trim().split(/\s+/).filter(Boolean).length;
+  // ~150 wpm at rate 0.95 ≈ 400ms/word, plus a small buffer.
+  return Math.max(2500, words * 400 + 600);
+}
+
+function speak(text, enabled=true, onEnd){
+  const spoken = (text || '').replace(/RealDiag/g, 'Real Dye Agg');
+  const fireEnd = () => { if(typeof onEnd === 'function') onEnd(); };
+
+  if(!enabled || typeof window === 'undefined' || !('speechSynthesis' in window)){
+    // No audio — still call back after an estimated read time so the tour advances.
+    setTimeout(fireEnd, estimateSpeechMs(spoken));
+    return;
   }
+
+  window.speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(spoken);
+  const voice = pickBestVoice();
+  if(voice){
+    utterance.voice = voice;
+    utterance.lang = voice.lang || 'en-US';
+  } else {
+    utterance.lang = 'en-US';
+  }
+  // Slightly slower + slightly lower pitch reads as more conversational.
+  utterance.rate = 0.95;
+  utterance.pitch = 0.95;
+  utterance.volume = 1;
+
+  let fired = false;
+  const safeFire = () => { if(!fired){ fired = true; fireEnd(); } };
+  utterance.onend = safeFire;
+  utterance.onerror = safeFire;
+
+  // Fallback timer: if the engine never fires onend (Chromium quirk on long
+  // utterances), advance after the estimated duration plus a safety margin.
+  const fallback = setTimeout(safeFire, estimateSpeechMs(spoken) + 4000);
+  const wrappedEnd = utterance.onend;
+  utterance.onend = () => { clearTimeout(fallback); wrappedEnd(); };
+
+  window.speechSynthesis.speak(utterance);
 }
 
 function CinematicScene({ kind, sceneIndex }){
@@ -419,6 +442,8 @@ function RealDiagDemo(){
 
   const stopNarration = () => {
     if(tourRef.current) clearTimeout(tourRef.current);
+    if(typeof tourRef.cancel === 'function') tourRef.cancel();
+    tourRef.tourId = (tourRef.tourId || 0) + 1; // invalidate any in-flight callbacks
     if(typeof window !== 'undefined' && 'speechSynthesis' in window){
       window.speechSynthesis.cancel();
     }
@@ -514,13 +539,28 @@ function RealDiagDemo(){
     setAnalyzed(false);
     setActiveSceneIndex(-1);
     let i = 0;
+    let cancelled = false;
+
+    // Track cancellation so a stale onEnd from a cancelled utterance doesn't
+    // restart the loop after the user closes the player.
+    const tourId = (tourRef.tourId || 0) + 1;
+    tourRef.tourId = tourId;
+
+    const advance = () => {
+      if(cancelled || tourRef.tourId !== tourId) return;
+      runStep();
+    };
 
     const runStep = () => {
+      if(cancelled || tourRef.tourId !== tourId) return;
+
       if(i >= cinematicSections.length){
         setVideoProgress(100);
         setActiveSceneIndex(-1);
-        speak('Demo complete.', voiceEnabled);
-        tourRef.current = setTimeout(() => setIsPlayingVideo(false), 2500);
+        speak('Demo complete.', voiceEnabled, () => {
+          if(cancelled || tourRef.tourId !== tourId) return;
+          tourRef.current = setTimeout(() => setIsPlayingVideo(false), 1500);
+        });
         return;
       }
 
@@ -534,10 +574,29 @@ function RealDiagDemo(){
         setTimeout(() => setAnalyzed(true), 1200);
       }
 
-      speak(section.text, voiceEnabled);
+      // Ensure each scene shows for a minimum amount of time so visuals can
+      // breathe even if the spoken text is short. Advance only after BOTH the
+      // narration finishes AND the minimum display time has passed.
+      const minDisplayMs = 4500;
+      const startedAt = Date.now();
+      let speechDone = false;
+      let minDone = false;
+      const tryAdvance = () => {
+        if(speechDone && minDone) advance();
+      };
+
+      tourRef.current = setTimeout(() => { minDone = true; tryAdvance(); }, minDisplayMs);
+
+      speak(section.text, voiceEnabled, () => {
+        // Small pause after the narration ends so it doesn't feel rushed.
+        setTimeout(() => { speechDone = true; tryAdvance(); }, 600);
+      });
+
       i++;
-      tourRef.current = setTimeout(runStep, 7000);
     };
+
+    // Allow stopNarration to flag cancellation.
+    tourRef.cancel = () => { cancelled = true; };
 
     runStep();
   };
