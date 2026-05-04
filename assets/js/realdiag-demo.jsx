@@ -941,10 +941,12 @@ function RealDiagDemo(){
                 <div className='bg-slate-900 text-white rounded-2xl p-4'>
                   <div className='text-sm'>Diagnostic Accuracy</div>
                   <div className='text-3xl font-bold mt-2'>+25%</div>
+                  <div className='text-xs text-slate-400 mt-1'>vs. baseline clinical workflow</div>
                 </div>
                 <div className='bg-slate-900 text-white rounded-2xl p-4'>
                   <div className='text-sm'>Time to Treatment</div>
                   <div className='text-3xl font-bold mt-2'>-30%</div>
+                  <div className='text-xs text-slate-400 mt-1'>average reduction per patient</div>
                 </div>
                 <div className='bg-slate-900 text-white rounded-2xl p-4'>
                   <div className='text-sm'>Cost Savings</div>
