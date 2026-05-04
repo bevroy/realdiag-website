@@ -148,9 +148,9 @@ function estimateSpeechMs(text){
 }
 
 function speak(text, enabled=true, onEnd){
-  // Most browser TTS engines stress the first syllable of a single token, so
-  // collapsing "Dye-ag" into one word ("Dyeag") puts the emphasis on DYE.
-  const spoken = (text || '').replace(/RealDiag/g, 'Real Dyeag');
+  // Doubled consonant after the vowel signals a short "a" (as in "bag"),
+  // which keeps the second syllable from being reduced to "egg".
+  const spoken = (text || '').replace(/RealDiag/g, 'Real Dyagg');
   const fireEnd = () => { if(typeof onEnd === 'function') onEnd(); };
 
   if(!enabled || typeof window === 'undefined' || !('speechSynthesis' in window)){
