@@ -767,10 +767,10 @@ function RealDiagDemo(){
               { src: 'assets/images/screenshots/symptom-entry.png', label: 'Symptom Entry', caption: 'Structured symptom capture with chip-style tagging.' }
             ].map(shot => (
               <figure key={shot.label} className='group rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 hover:shadow-xl transition'>
-                <div className='aspect-[16/9] overflow-hidden bg-white'>
+                <div className='aspect-[16/9] overflow-hidden bg-white flex items-center justify-center p-2'>
                   <img src={shot.src} alt={shot.label}
                        loading='lazy'
-                       className='w-full h-full object-cover object-top group-hover:scale-[1.02] transition-transform duration-500' />
+                       className='max-w-full max-h-full w-auto h-auto object-contain group-hover:scale-[1.02] transition-transform duration-500' />
                 </div>
                 <figcaption className='p-4'>
                   <div className='font-semibold text-slate-800 text-sm'>{shot.label}</div>
@@ -785,7 +785,7 @@ function RealDiagDemo(){
           <div className='bg-white rounded-3xl shadow-lg border border-slate-200 p-5 lg:col-span-2'>
             <h2 className='font-bold text-xl mb-4'>EHR Integration Workflow</h2>
             <div className='grid md:grid-cols-5 gap-3 text-center'>
-              <div className='bg-slate-50 rounded-2xl p-4'><div className='font-semibold'>Epic/Cerner</div><div className='text-sm text-slate-500 mt-2'>Patient chart opened</div></div>
+              <div className='bg-slate-50 rounded-2xl p-4'><div className='font-semibold'>Epic / Oracle Health</div><div className='text-sm text-slate-500 mt-2'>Patient chart opened</div></div>
               <div className='bg-slate-50 rounded-2xl p-4'><div className='font-semibold'>RealDiag Launch</div><div className='text-sm text-slate-500 mt-2'>Embedded launch button</div></div>
               <div className='bg-slate-50 rounded-2xl p-4'><div className='font-semibold'>Data Pull</div><div className='text-sm text-slate-500 mt-2'>Labs, meds, history, imaging</div></div>
               <div className='bg-slate-50 rounded-2xl p-4'><div className='font-semibold'>Analysis</div><div className='text-sm text-slate-500 mt-2'>Differential generation</div></div>
@@ -822,12 +822,21 @@ function RealDiagDemo(){
             </div>
 
               <div className='mt-6 bg-teal-50 border border-teal-200 rounded-2xl p-5'>
-                <h3 className='font-bold text-lg mb-3'>ROI Calculator</h3>
-                <div className='text-sm text-slate-600 mb-3'>Example based on 10,000 diagnostic patients annually:</div>
-                <div className='grid md:grid-cols-3 gap-4'>
-                  <div className='bg-white rounded-xl p-4'><div className='text-sm text-slate-500'>Avoidable Costs</div><div className='text-2xl font-bold'>$4.2M</div></div>
-                  <div className='bg-white rounded-xl p-4'><div className='text-sm text-slate-500'>Referral Reduction</div><div className='text-2xl font-bold'>18%</div></div>
-                  <div className='bg-white rounded-xl p-4'><div className='text-sm text-slate-500'>Time Saved</div><div className='text-2xl font-bold'>32%</div></div>
+                <h3 className='font-bold text-lg mb-1'>ROI Calculator</h3>
+                <div className='text-xs text-slate-600 mb-3'>Per 10,000 diagnostic patients annually</div>
+                <div className='space-y-3'>
+                  <div className='bg-white rounded-xl p-4 flex items-baseline justify-between gap-3'>
+                    <div className='text-sm text-slate-500'>Avoidable Costs</div>
+                    <div className='text-2xl font-bold whitespace-nowrap'>$4.2M</div>
+                  </div>
+                  <div className='bg-white rounded-xl p-4 flex items-baseline justify-between gap-3'>
+                    <div className='text-sm text-slate-500'>Referral Reduction</div>
+                    <div className='text-2xl font-bold whitespace-nowrap'>18%</div>
+                  </div>
+                  <div className='bg-white rounded-xl p-4 flex items-baseline justify-between gap-3'>
+                    <div className='text-sm text-slate-500'>Time Saved</div>
+                    <div className='text-2xl font-bold whitespace-nowrap'>32%</div>
+                  </div>
                 </div>
               </div>
             </Card>
@@ -940,6 +949,7 @@ function RealDiagDemo(){
                 <div className='bg-slate-900 text-white rounded-2xl p-4'>
                   <div className='text-sm'>Cost Savings</div>
                   <div className='text-3xl font-bold mt-2'>$2.8K</div>
+                  <div className='text-xs text-slate-400 mt-1'>per patient, per year</div>
                 </div>
               </div>
             </Card>
