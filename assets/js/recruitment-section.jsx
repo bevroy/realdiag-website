@@ -40,7 +40,7 @@ function RecruitmentSection() {
         <li>AI/digital health innovation</li>
       </ul>
       <p>If your organization is interested in participating in the validation process for next-generation diagnostic support technology, we would welcome a conversation.</p>
-      <p>Please comment below or send a direct message to learn more.</p>
+      <p>Please contact us to learn more.</p>
       <div style={{ marginTop: 12, fontSize: '0.95em', color: '#0f766e' }}>
         #HealthcareInnovation #DigitalHealth #ClinicalResearch #ArtificialIntelligence #ClinicalDecisionSupport #HealthIT #Diagnostics #MedicalInnovation #RealWorldEvidence #ClinicalValidation #AIinHealthcare #RealDiag
       </div>
