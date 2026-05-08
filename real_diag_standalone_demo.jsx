@@ -1,3 +1,84 @@
+// CollapsibleNotice component for collapsible info sections
+function CollapsibleNotice({ title, children }) {
+  const [open, setOpen] = React.useState(false);
+  return (
+    <div className="mb-8 rounded-2xl border border-teal-300 bg-teal-50 p-6 shadow">
+      <button
+        type="button"
+        className="flex w-full items-center justify-between text-lg font-bold text-teal-900 mb-2 focus:outline-none"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        aria-controls={`notice-content-${title.replace(/\s+/g, '')}`}
+      >
+        <span>{title}</span>
+        <span className={`transition-transform ${open ? 'rotate-180' : ''}`}>▼</span>
+      </button>
+      {open && (
+        <div id={`notice-content-${title.replace(/\s+/g, '')}`}>{children}</div>
+      )}
+    </div>
+  );
+}
+{/* Collapsible dropdown for Inside the Application info section (not the demo) */}
+<CollapsibleNotice title="Inside the Application">
+  <div className="mb-2 text-slate-700">Real screens from the RealDiag clinician interface.</div>
+  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+    <figure className="group rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 hover:shadow-xl transition">
+      <div className="aspect-[16/9] overflow-hidden bg-white flex items-center justify-center p-2">
+        <img src="assets/images/screenshots/symptom-search.png" alt="Symptom Search" loading="lazy" className="max-w-full max-h-full w-auto h-auto object-contain group-hover:scale-[1.02] transition-transform duration-500" />
+      </div>
+      <figcaption className="p-4">
+        <div className="font-semibold text-slate-800 text-sm">Symptom Search</div>
+        <div className="text-xs text-slate-500 mt-1">Enter symptoms, demographics, and specialty filters.</div>
+      </figcaption>
+    </figure>
+    <figure className="group rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 hover:shadow-xl transition">
+      <div className="aspect-[16/9] overflow-hidden bg-white flex items-center justify-center p-2">
+        <img src="assets/images/screenshots/results-displayed.png" alt="Ranked Results" loading="lazy" className="max-w-full max-h-full w-auto h-auto object-contain group-hover:scale-[1.02] transition-transform duration-500" />
+      </div>
+      <figcaption className="p-4">
+        <div className="font-semibold text-slate-800 text-sm">Ranked Results</div>
+        <div className="text-xs text-slate-500 mt-1">Diagnoses ranked by likelihood with matched symptoms.</div>
+      </figcaption>
+    </figure>
+    <figure className="group rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 hover:shadow-xl transition">
+      <div className="aspect-[16/9] overflow-hidden bg-white flex items-center justify-center p-2">
+        <img src="assets/images/screenshots/typical-presentation.png" alt="Typical Presentation" loading="lazy" className="max-w-full max-h-full w-auto h-auto object-contain group-hover:scale-[1.02] transition-transform duration-500" />
+      </div>
+      <figcaption className="p-4">
+        <div className="font-semibold text-slate-800 text-sm">Typical Presentation</div>
+        <div className="text-xs text-slate-500 mt-1">Pattern recognition with ICD-10 and SNOMED codes.</div>
+      </figcaption>
+    </figure>
+    <figure className="group rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 hover:shadow-xl transition">
+      <div className="aspect-[16/9] overflow-hidden bg-white flex items-center justify-center p-2">
+        <img src="assets/images/screenshots/recommended-workup.png" alt="Recommended Workup" loading="lazy" className="max-w-full max-h-full w-auto h-auto object-contain group-hover:scale-[1.02] transition-transform duration-500" />
+      </div>
+      <figcaption className="p-4">
+        <div className="font-semibold text-slate-800 text-sm">Recommended Workup</div>
+        <div className="text-xs text-slate-500 mt-1">Diagnostic tests aligned to evidence-based guidelines.</div>
+      </figcaption>
+    </figure>
+    <figure className="group rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 hover:shadow-xl transition">
+      <div className="aspect-[16/9] overflow-hidden bg-white flex items-center justify-center p-2">
+        <img src="assets/images/screenshots/management.png" alt="Management" loading="lazy" className="max-w-full max-h-full w-auto h-auto object-contain group-hover:scale-[1.02] transition-transform duration-500" />
+      </div>
+      <figcaption className="p-4">
+        <div className="font-semibold text-slate-800 text-sm">Management</div>
+        <div className="text-xs text-slate-500 mt-1">Acute care, medications, and counseling guidance.</div>
+      </figcaption>
+    </figure>
+    <figure className="group rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 hover:shadow-xl transition">
+      <div className="aspect-[16/9] overflow-hidden bg-white flex items-center justify-center p-2">
+        <img src="assets/images/screenshots/specialist-referral.png" alt="Specialist Referral" loading="lazy" className="max-w-full max-h-full w-auto h-auto object-contain group-hover:scale-[1.02] transition-transform duration-500" />
+      </div>
+      <figcaption className="p-4">
+        <div className="font-semibold text-slate-800 text-sm">Specialist Referral</div>
+        <div className="text-xs text-slate-500 mt-1">Triage-ready emergency, urgent, and routine referrals.</div>
+      </figcaption>
+    </figure>
+  </div>
+</CollapsibleNotice>
 // Example usage of CollapsibleNotice for RealDiag Validation Study Site Recruitment
 // Place this inside your main component's render/return section where you want the notice to appear
 <CollapsibleNotice title="RealDiag Validation Study Site Recruitment">
