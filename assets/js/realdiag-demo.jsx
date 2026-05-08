@@ -1,3 +1,4 @@
+import CollapsibleNotice from './CollapsibleNotice';
 const { useState, useRef } = React;
 
 // Lightweight shim for framer-motion: render the underlying HTML tag and drop motion-only props.
@@ -748,7 +749,9 @@ function RealDiagDemo(){
           </div>
         </div>
 
-        <div className='bg-white rounded-3xl shadow-lg border border-slate-200 p-6 mb-6'>
+
+        {/* Collapsible dropdown for Inside the Application section */}
+        <CollapsibleNotice title="Inside the Application">
           <div className='flex items-end justify-between flex-wrap gap-2 mb-5'>
             <div>
               <h2 className='font-bold text-xl'>Inside the Application</h2>
@@ -780,7 +783,7 @@ function RealDiagDemo(){
               </figure>
             ))}
           </div>
-        </div>
+        </CollapsibleNotice>
 
         <div className='grid lg:grid-cols-3 gap-6 mb-6'>
           <div className='bg-white rounded-3xl shadow-lg border border-slate-200 p-5 lg:col-span-2'>
