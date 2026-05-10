@@ -1,7 +1,7 @@
 function CollapsibleNotice({ title, children }) {
   const [open, setOpen] = React.useState(false);
   return (
-    <div className="mb-8 rounded-2xl border border-teal-300 bg-teal-50 p-6 shadow">
+    <div className="mb-4 rounded-2xl border border-teal-300 bg-teal-50 p-6 shadow">
       <button
         type="button"
         className="flex w-full items-center justify-between text-lg font-bold text-teal-900 mb-2 focus:outline-none"
