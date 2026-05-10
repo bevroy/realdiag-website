@@ -52,76 +52,7 @@
     <h3 class="text-3xl font-bold mb-2 text-center">See RealDiag in Action</h3>
     <p class="text-slate-500 text-center mb-8">An interactive walkthrough of the diagnostic workflow.</p>
     <div id="realdiag-demo-root"></div>
-    <div id="inside-app-root"></div>
   </section>
-    // InsideTheApplicationSection component
-    function InsideTheApplicationSection() {
-      return (
-        <CollapsibleNotice title="Inside the Application">
-          <div className="mb-2 text-slate-700">Real screens from the RealDiag clinician interface.</div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-            <figure className="group rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 hover:shadow-xl transition">
-              <div className="aspect-[16/9] overflow-hidden bg-white flex items-center justify-center p-2">
-                <img src="assets/images/screenshots/symptom-search.png" alt="Symptom Search" loading="lazy" className="max-w-full max-h-full w-auto h-auto object-contain group-hover:scale-[1.02] transition-transform duration-500" />
-              </div>
-              <figcaption className="p-4">
-                <div className="font-semibold text-slate-800 text-sm">Symptom Search</div>
-                <div className="text-xs text-slate-500 mt-1">Enter symptoms, demographics, and specialty filters.</div>
-              </figcaption>
-            </figure>
-            <figure className="group rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 hover:shadow-xl transition">
-              <div className="aspect-[16/9] overflow-hidden bg-white flex items-center justify-center p-2">
-                <img src="assets/images/screenshots/results-displayed.png" alt="Ranked Results" loading="lazy" className="max-w-full max-h-full w-auto h-auto object-contain group-hover:scale-[1.02] transition-transform duration-500" />
-              </div>
-              <figcaption className="p-4">
-                <div className="font-semibold text-slate-800 text-sm">Ranked Results</div>
-                <div className="text-xs text-slate-500 mt-1">Diagnoses ranked by likelihood with matched symptoms.</div>
-              </figcaption>
-            </figure>
-            <figure className="group rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 hover:shadow-xl transition">
-              <div className="aspect-[16/9] overflow-hidden bg-white flex items-center justify-center p-2">
-                <img src="assets/images/screenshots/typical-presentation.png" alt="Typical Presentation" loading="lazy" className="max-w-full max-h-full w-auto h-auto object-contain group-hover:scale-[1.02] transition-transform duration-500" />
-              </div>
-              <figcaption className="p-4">
-                <div className="font-semibold text-slate-800 text-sm">Typical Presentation</div>
-                <div className="text-xs text-slate-500 mt-1">Pattern recognition with ICD-10 and SNOMED codes.</div>
-              </figcaption>
-            </figure>
-            <figure className="group rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 hover:shadow-xl transition">
-              <div className="aspect-[16/9] overflow-hidden bg-white flex items-center justify-center p-2">
-                <img src="assets/images/screenshots/recommended-workup.png" alt="Recommended Workup" loading="lazy" className="max-w-full max-h-full w-auto h-auto object-contain group-hover:scale-[1.02] transition-transform duration-500" />
-              </div>
-              <figcaption className="p-4">
-                <div className="font-semibold text-slate-800 text-sm">Recommended Workup</div>
-                <div className="text-xs text-slate-500 mt-1">Diagnostic tests aligned to evidence-based guidelines.</div>
-              </figcaption>
-            </figure>
-            <figure className="group rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 hover:shadow-xl transition">
-              <div className="aspect-[16/9] overflow-hidden bg-white flex items-center justify-center p-2">
-                <img src="assets/images/screenshots/management.png" alt="Management" loading="lazy" className="max-w-full max-h-full w-auto h-auto object-contain group-hover:scale-[1.02] transition-transform duration-500" />
-              </div>
-              <figcaption className="p-4">
-                <div className="font-semibold text-slate-800 text-sm">Management</div>
-                <div className="text-xs text-slate-500 mt-1">Acute care, medications, and counseling guidance.</div>
-              </figcaption>
-            </figure>
-            <figure className="group rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 hover:shadow-xl transition">
-              <div className="aspect-[16/9] overflow-hidden bg-white flex items-center justify-center p-2">
-                <img src="assets/images/screenshots/specialist-referral.png" alt="Specialist Referral" loading="lazy" className="max-w-full max-h-full w-auto h-auto object-contain group-hover:scale-[1.02] transition-transform duration-500" />
-              </div>
-              <figcaption className="p-4">
-                <div className="font-semibold text-slate-800 text-sm">Specialist Referral</div>
-                <div className="text-xs text-slate-500 mt-1">Triage-ready emergency, urgent, and routine referrals.</div>
-              </figcaption>
-            </figure>
-          </div>
-        </CollapsibleNotice>
-      );
-    }
-    const insideAppRoot = document.getElementById('inside-app-root');
-    if (insideAppRoot) {
-      ReactDOM.createRoot(insideAppRoot).render(<InsideTheApplicationSection />);
-    }
 
   <section id="about" class="py-16 max-w-7xl mx-auto px-6">
     <div class="bg-white rounded-3xl shadow-lg border border-slate-200 p-8 md:p-10">
