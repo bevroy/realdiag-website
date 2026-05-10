@@ -112,7 +112,7 @@
         <div className="mb-8 rounded-2xl border border-teal-300 bg-teal-50 p-0 shadow">
           <button
             type="button"
-            className="flex w-full items-center justify-between text-lg font-bold mb-0 focus:outline-none bg-green-900 text-teal-200 p-4 rounded-2xl shadow-lg hover:scale-[1.01] transition-transform"
+            className="flex w-full items-center justify-between text-lg font-bold mb-0 focus:outline-none bg-slate-900 text-teal-200 p-4 rounded-2xl shadow-lg hover:scale-[1.01] transition-transform"
             style={{ boxShadow: '0 0 16px 2px #5eead4, 0 2px 16px 0 #0f766e33' }}
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
@@ -120,7 +120,7 @@
           >
             <span className="flex items-center gap-2">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-green-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6 1a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-              <span className="text-lg font-bold text-teal-900">{title}</span>
+              <span className="text-lg font-bold text-teal-200">{title}</span>
             </span>
             <span className={`transition-transform ${open ? 'rotate-180' : ''}`}>▼</span>
           </button>
