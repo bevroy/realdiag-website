@@ -749,15 +749,39 @@ function RealDiagDemo(){
         </div>
 
 
-        <div className='bg-white rounded-3xl shadow-lg border border-slate-200 p-6 mb-6'>
-          <div className='flex items-end justify-between flex-wrap gap-2 mb-5'>
+        {/* Envelope Animation for Inside the Application */}
+        <EnvelopeScreenshots />
+// EnvelopeScreenshots component: animated envelope effect for screenshots section
+function EnvelopeScreenshots() {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="mb-6 flex flex-col items-center">
+      <button
+        onClick={() => setOpen((v) => !v)}
+        className="relative z-10 -mb-2 focus:outline-none"
+        aria-expanded={open}
+        aria-controls="envelope-content"
+      >
+        <div className="w-64 h-12 bg-gradient-to-r from-slate-900 to-teal-700 rounded-t-3xl flex items-center justify-center shadow-lg border-b-4 border-teal-400 transition-transform duration-500"
+             style={{ transform: open ? 'rotateX(30deg) scaleY(0.95)' : 'rotateX(0deg) scaleY(1)' }}>
+          <span className="text-white text-lg font-bold tracking-wide drop-shadow">Inside the Application</span>
+          <span className={`ml-3 transition-transform ${open ? 'rotate-180' : ''}`}>▼</span>
+        </div>
+      </button>
+      <div
+        id="envelope-content"
+        className={`w-full max-w-6xl bg-white rounded-b-3xl shadow-lg border border-slate-200 overflow-hidden transition-all duration-700 ${open ? 'max-h-[2000px] opacity-100 scale-y-100' : 'max-h-0 opacity-0 scale-y-95'} origin-top`}
+        style={{ transitionProperty: 'max-height, opacity, transform', willChange: 'max-height, opacity, transform' }}
+      >
+        <div className="px-8 pt-8 pb-4">
+          <div className="flex items-end justify-between flex-wrap gap-2 mb-5">
             <div>
-              <h2 className='font-bold text-xl'>Inside the Application</h2>
-              <p className='text-sm text-slate-500 mt-1'>Real screens from the RealDiag clinician interface.</p>
+              <h2 className="font-bold text-xl">Inside the Application</h2>
+              <p className="text-sm text-slate-500 mt-1">Real screens from the RealDiag clinician interface.</p>
             </div>
-            <div className='text-xs text-slate-400'>Live product preview</div>
+            <div className="text-xs text-slate-400">Live product preview</div>
           </div>
-          <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-5'>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {[
               { src: 'assets/images/screenshots/symptom-search.png', label: 'Symptom Search', caption: 'Enter symptoms, demographics, and specialty filters.' },
               { src: 'assets/images/screenshots/results-displayed.png', label: 'Ranked Results', caption: 'Diagnoses ranked by likelihood with matched symptoms.' },
@@ -768,20 +792,24 @@ function RealDiagDemo(){
               { src: 'assets/images/screenshots/clinical-pearls.png', label: 'Clinical Pearls', caption: 'High-yield clinical reminders at the point of care.' },
               { src: 'assets/images/screenshots/symptom-entry.png', label: 'Symptom Entry', caption: 'Structured symptom capture with chip-style tagging.' }
             ].map(shot => (
-              <figure key={shot.label} className='group rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 hover:shadow-xl transition'>
-                <div className='aspect-[16/9] overflow-hidden bg-white flex items-center justify-center p-2'>
+              <figure key={shot.label} className="group rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 hover:shadow-xl transition">
+                <div className="aspect-[16/9] overflow-hidden bg-white flex items-center justify-center p-2">
                   <img src={shot.src} alt={shot.label}
-                       loading='lazy'
-                       className='max-w-full max-h-full w-auto h-auto object-contain group-hover:scale-[1.02] transition-transform duration-500' />
+                       loading="lazy"
+                       className="max-w-full max-h-full w-auto h-auto object-contain group-hover:scale-[1.02] transition-transform duration-500" />
                 </div>
-                <figcaption className='p-4'>
-                  <div className='font-semibold text-slate-800 text-sm'>{shot.label}</div>
-                  <div className='text-xs text-slate-500 mt-1'>{shot.caption}</div>
+                <figcaption className="p-4">
+                  <div className="font-semibold text-slate-800 text-sm">{shot.label}</div>
+                  <div className="text-xs text-slate-500 mt-1">{shot.caption}</div>
                 </figcaption>
               </figure>
             ))}
           </div>
         </div>
+      </div>
+    </div>
+  );
+}
 
         <div className='grid lg:grid-cols-3 gap-6 mb-6'>
           <div className='bg-white rounded-3xl shadow-lg border border-slate-200 p-5 lg:col-span-2'>
