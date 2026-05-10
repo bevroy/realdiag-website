@@ -109,19 +109,25 @@
     function CollapsibleNotice({ title, children }) {
       const [open, setOpen] = React.useState(false);
       return (
-        <div className="mb-8 rounded-2xl border border-teal-300 bg-teal-50 p-6 shadow">
+        <div className="mb-8 rounded-2xl border border-teal-300 bg-teal-50 p-0 shadow">
           <button
             type="button"
-            className="flex w-full items-center justify-between text-lg font-bold text-teal-900 mb-2 focus:outline-none"
+            className="flex w-full items-center justify-between text-lg font-bold mb-0 focus:outline-none bg-gradient-to-r from-yellow-200 via-teal-200 to-cyan-200 p-4 rounded-2xl shadow-lg hover:scale-[1.01] transition-transform"
+            style={{ boxShadow: '0 0 16px 2px #5eead4, 0 2px 16px 0 #0f766e33' }}
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
             aria-controls={`notice-content-${title.replace(/\s+/g, '')}`}
           >
-            <span>{title}</span>
+            <span className="flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-yellow-400 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6 1a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              <span className="text-lg font-bold text-teal-900">{title}</span>
+            </span>
             <span className={`transition-transform ${open ? 'rotate-180' : ''}`}>▼</span>
           </button>
           {open && (
-            <div id={`notice-content-${title.replace(/\s+/g, '')}`}>{children}</div>
+            <div id={`notice-content-${title.replace(/\s+/g, '')}`} className="p-6 bg-white rounded-b-2xl">
+              {children}
+            </div>
           )}
         </div>
       );
@@ -131,56 +137,48 @@
     function RecruitmentSection() {
       return (
         <CollapsibleNotice title="RealDiag Validation Study Site Recruitment">
-          <div className="bg-gradient-to-r from-yellow-200 via-teal-200 to-cyan-200 p-1 rounded-2xl shadow-lg" style="box-shadow: 0 0 16px 2px #5eead4, 0 2px 16px 0 #0f766e33;">
-            <div className="flex items-center gap-3 p-4">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-yellow-400 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6 1a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-              <span className="text-lg font-bold text-teal-900">Validation Study Site Recruitment</span>
-            </div>
-            <div className="p-6 bg-white rounded-b-2xl">
-              <div style="font-style: italic; margin-bottom: 12px; color: #0f766e;">Elionyx Health, LLC</div>
-              <p>We are actively seeking clinical partner sites to participate in the formal validation study for RealDiag — an AI-enabled diagnostic decision support platform developed under Elionyx Health, LLC.</p>
-              <p>RealDiag is designed to support clinicians by improving diagnostic accuracy, referral precision, and guideline-aligned clinical decision-making across complex disease states.</p>
-              <p><strong>We are currently recruiting:</strong></p>
-              <ul style="margin-left: 24px;">
-                <li>Academic medical centers</li>
-                <li>Health systems</li>
-                <li>Community hospitals</li>
-                <li>Specialty practices</li>
-                <li>Research organizations</li>
-                <li>Innovation-forward clinical groups</li>
-              </ul>
-              <p><strong>Participating validation sites will receive:</strong></p>
-              <ul style="margin-left: 24px;">
-                <li>✔ Unlimited RealDiag platform access for one full year</li>
-                <li>✔ Early access to upcoming platform capabilities</li>
-                <li>✔ Direct collaboration with the RealDiag development and clinical validation team</li>
-                <li>✔ Opportunity for co-authorship/publication participation on validation outcomes</li>
-                <li>✔ Recognition as an inaugural RealDiag validation partner site</li>
-              </ul>
-              <p><strong>Study objectives include:</strong></p>
-              <ul style="margin-left: 24px;">
-                <li>Diagnostic accuracy validation</li>
-                <li>Referral optimization assessment</li>
-                <li>Workflow integration evaluation</li>
-                <li>Clinical utility and usability analysis</li>
-                <li>Health economic and operational impact assessment</li>
-              </ul>
-              <p><strong>We are especially interested in organizations with strengths in:</strong></p>
-              <ul style="margin-left: 24px;">
-                <li>Neurology</li>
-                <li>Primary care</li>
-                <li>Emergency medicine</li>
-                <li>Internal medicine</li>
-                <li>Multi-specialty referral systems</li>
-                <li>Clinical informatics</li>
-                <li>AI/digital health innovation</li>
-              </ul>
-              <p>If your organization is interested in participating in the validation process for next-generation diagnostic support technology, we would welcome a conversation.</p>
-              <p>Please contact us to learn more.</p>
-              <div style="margin-top: 12px; font-size: 0.95em; color: #fbbf24;">
-                #HealthcareInnovation #DigitalHealth #ClinicalResearch #ArtificialIntelligence #ClinicalDecisionSupport #HealthIT #Diagnostics #MedicalInnovation #RealWorldEvidence #ClinicalValidation #AIinHealthcare #RealDiag
-              </div>
-            </div>
+          <div style={{ fontStyle: 'italic', marginBottom: 12, color: '#0f766e' }}>Elionyx Health, LLC</div>
+          <p>We are actively seeking clinical partner sites to participate in the formal validation study for RealDiag — an AI-enabled diagnostic decision support platform developed under Elionyx Health, LLC.</p>
+          <p>RealDiag is designed to support clinicians by improving diagnostic accuracy, referral precision, and guideline-aligned clinical decision-making across complex disease states.</p>
+          <p><strong>We are currently recruiting:</strong></p>
+          <ul style={{ marginLeft: 24 }}>
+            <li>Academic medical centers</li>
+            <li>Health systems</li>
+            <li>Community hospitals</li>
+            <li>Specialty practices</li>
+            <li>Research organizations</li>
+            <li>Innovation-forward clinical groups</li>
+          </ul>
+          <p><strong>Participating validation sites will receive:</strong></p>
+          <ul style={{ marginLeft: 24 }}>
+            <li>✔ Unlimited RealDiag platform access for one full year</li>
+            <li>✔ Early access to upcoming platform capabilities</li>
+            <li>✔ Direct collaboration with the RealDiag development and clinical validation team</li>
+            <li>✔ Opportunity for co-authorship/publication participation on validation outcomes</li>
+            <li>✔ Recognition as an inaugural RealDiag validation partner site</li>
+          </ul>
+          <p><strong>Study objectives include:</strong></p>
+          <ul style={{ marginLeft: 24 }}>
+            <li>Diagnostic accuracy validation</li>
+            <li>Referral optimization assessment</li>
+            <li>Workflow integration evaluation</li>
+            <li>Clinical utility and usability analysis</li>
+            <li>Health economic and operational impact assessment</li>
+          </ul>
+          <p><strong>We are especially interested in organizations with strengths in:</strong></p>
+          <ul style={{ marginLeft: 24 }}>
+            <li>Neurology</li>
+            <li>Primary care</li>
+            <li>Emergency medicine</li>
+            <li>Internal medicine</li>
+            <li>Multi-specialty referral systems</li>
+            <li>Clinical informatics</li>
+            <li>AI/digital health innovation</li>
+          </ul>
+          <p>If your organization is interested in participating in the validation process for next-generation diagnostic support technology, we would welcome a conversation.</p>
+          <p>Please contact us to learn more.</p>
+          <div style={{ marginTop: 12, fontSize: '0.95em', color: '#fbbf24' }}>
+            #HealthcareInnovation #DigitalHealth #ClinicalResearch #ArtificialIntelligence #ClinicalDecisionSupport #HealthIT #Diagnostics #MedicalInnovation #RealWorldEvidence #ClinicalValidation #AIinHealthcare #RealDiag
           </div>
         </CollapsibleNotice>
       );
