@@ -87,14 +87,20 @@
     <div class="bg-white rounded-3xl shadow-lg border border-slate-200 p-8 md:p-10">
       <h3 class="text-2xl font-bold mb-2">Get in Touch</h3>
       <p class="text-slate-600 mb-6">Interested in partnering, piloting, or supporting RealDiag? Reach out below.</p>
-      <form class="space-y-4">
-        <input type="text" placeholder="Name" class="w-full p-3 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500" />
-        <input type="email" placeholder="Email" class="w-full p-3 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500" />
-        <textarea placeholder="Message" rows="4" class="w-full p-3 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500"></textarea>
+      <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="space-y-4">
+        <input type="hidden" name="form-name" value="contact" />
+        <!-- Honeypot field for spam protection -->
+        <p class="hidden">
+          <label>Don’t fill this out if you're human: <input name="bot-field" /></label>
+        </p>
+        <input type="text" name="name" placeholder="Name" required class="w-full p-3 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500" />
+        <input type="email" name="email" placeholder="Email" required class="w-full p-3 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500" />
+        <textarea name="message" placeholder="Message" rows="4" required class="w-full p-3 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500"></textarea>
         <button type="submit" class="bg-gradient-to-r from-slate-900 to-teal-700 text-white px-6 py-3 rounded-xl font-semibold hover:opacity-90">
           Send Message
         </button>
       </form>
+      <div id="form-success" class="hidden mt-4 text-green-600 font-semibold">Thank you! Your message has been sent.</div>
     </div>
   </section>
 
