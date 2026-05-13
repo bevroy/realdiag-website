@@ -88,6 +88,7 @@
       <h3 class="text-2xl font-bold mb-2">Get in Touch</h3>
       <p class="text-slate-600 mb-6">Interested in partnering, piloting, or supporting RealDiag? Reach out below.</p>
       <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="space-y-4">
+        <!-- Netlify form detection -->
         <input type="hidden" name="form-name" value="contact" />
         <!-- Honeypot field for spam protection -->
         <p class="hidden">
@@ -99,6 +100,14 @@
         <button type="submit" class="bg-gradient-to-r from-slate-900 to-teal-700 text-white px-6 py-3 rounded-xl font-semibold hover:opacity-90">
           Send Message
         </button>
+      </form>
+      <script>
+        // Set form action to thank-you page
+        document.addEventListener('DOMContentLoaded', function() {
+          var form = document.querySelector('form[name="contact"]');
+          if (form) form.setAttribute('action', '/thank-you.html');
+        });
+      </script>
       </form>
       <div id="form-success" class="hidden mt-4 text-green-600 font-semibold">Thank you! Your message has been sent.</div>
     </div>
